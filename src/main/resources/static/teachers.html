@@ -11,6 +11,12 @@
   <link rel="stylesheet" href="css/style.css"/>
 
   <style>
+    .teacher-card.no-trans {
+      transition: none !important;
+    }
+    .teacher-card.is-hidden {
+      opacity: 0 !important;
+    }
     /* ===== KARUSEL TIZIMI (MODERN) ===== */
     .teachers-section {
       padding: 60px 0;
@@ -83,6 +89,15 @@
       filter: blur(2px);
       opacity: 0.58;
       z-index: 2;
+    }
+
+    /* O'ngdan kirib keladigan karta: ghost ko'rinish (juda yengil) */
+    .teacher-card[data-pos="far-right"] {
+      transform: translateX(calc(520px + 40px)) scale(0.72);
+      filter: blur(8px);
+      opacity: 0.06;
+      z-index: 1;
+      pointer-events: none;
     }
 
     /* Chapdan chiqib ketadigan karta: butunlay yo'qoladi */
@@ -545,10 +560,49 @@
 
   function updatePositions() {
     const cards = document.querySelectorAll('.teacher-card');
+
     cards.forEach(card => {
-      const i   = parseInt(card.dataset.idx);
-      const pos = getPos(i);
-      card.setAttribute('data-pos', POS_NAMES[String(pos)] || 'far-right');
+      const i = parseInt(card.dataset.idx, 10);
+
+      // Oldingi pozitsiyani olib qolamiz (wrap aniqlash uchun)
+      const prevName = card.getAttribute('data-pos');
+      const prevPos =
+              prevName === 'far-left'  ? -2 :
+                      prevName === 'left'      ? -1 :
+                              prevName === 'center'    ?  0 :
+                                      prevName === 'right'     ?  1 :
+                                              prevName === 'far-right' ?  2 : null;
+
+      const nextPos = getPos(i);
+
+      // Wrap holat: -2 -> +2 yoki +2 -> -2 bo‘lsa,
+      // transitionni 1 marta o‘chirib, sakratib qo‘yamiz
+      const isWrapJump =
+              (prevPos === -2 && nextPos ===  2) ||
+              (prevPos ===  2 && nextPos === -2);
+
+      if (isWrapJump) {
+        // 1) Avval karta ko‘rinmasin va transition bo‘lmasin
+        card.classList.add('no-trans', 'is-hidden');
+
+        // 2) Yangi pozitsiyaga "sakratamiz" (ko‘rinmay turgani uchun sharpasiz)
+        card.setAttribute('data-pos', POS_NAMES[String(nextPos)]);
+
+        // reflow
+        void card.offsetHeight;
+
+        // 3) Keyingi kadrda transitionni qayta yoqamiz, lekin hali ham yashirin
+        requestAnimationFrame(() => {
+          card.classList.remove('no-trans');
+
+          // 4) Yana keyingi kadrda ko‘rsatamiz (endi faqat opacity "ghost" bo‘lib chiqadi)
+          requestAnimationFrame(() => {
+            card.classList.remove('is-hidden');
+          });
+        });
+      } else {
+        card.setAttribute('data-pos', POS_NAMES[String(nextPos)] || 'far-right');
+      }
     });
   }
 
