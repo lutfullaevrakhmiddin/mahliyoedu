@@ -9,128 +9,231 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <link rel="stylesheet" href="css/style.css"/>
   <style>
+    /* ===== KARUSEL TIZIMI ===== */
     .teachers-section { padding: 60px 0; }
 
-    /* KARUSEL */
-    .carousel-outer {
+    .carousel-wrapper {
       position: relative;
+      width: 100%;
       overflow: hidden;
-      padding: 20px 0 12px;
-      cursor: grab;
+      padding: 20px 0 30px;
+      touch-action: pan-y;
+      user-select: none;
     }
-    .carousel-outer:active { cursor: grabbing; }
+
     .carousel-track {
       display: flex;
-      gap: 20px;
-      transition: transform 0.6s cubic-bezier(0.4,0,0.2,1);
-      will-change: transform;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      position: relative;
+      height: 340px;
     }
+
+    /* ===== KARTA ===== */
     .teacher-card {
-      flex: 0 0 220px;
+      position: absolute;
+      width: 220px;
       background: var(--white);
       border-radius: 20px;
       overflow: hidden;
       border: 2px solid var(--gray-200);
-      box-shadow: var(--shadow-sm);
-      transition: filter 0.5s ease, opacity 0.5s ease, transform 0.5s ease, border-color 0.3s;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      transition:
+              transform 0.55s cubic-bezier(0.4,0,0.2,1),
+              filter    0.55s cubic-bezier(0.4,0,0.2,1),
+              opacity   0.55s cubic-bezier(0.4,0,0.2,1),
+              z-index   0s   0.27s;
     }
-    .teacher-card.blurred {
-      filter: blur(3px);
-      opacity: 0.5;
-      transform: scale(0.94);
-    }
-    .teacher-card.active-card {
+
+    /* Pozitsiya holatlari */
+    .teacher-card[data-pos="center"] {
+      transform: translateX(0) scale(1);
+      filter: none;
+      opacity: 1;
+      z-index: 3;
       border-color: var(--blue);
-      box-shadow: var(--shadow-lg);
+      box-shadow: 0 8px 32px rgba(37,99,235,0.18);
     }
+    .teacher-card[data-pos="left"] {
+      transform: translateX(calc(-220px - 16px)) scale(0.88);
+      filter: blur(2px);
+      opacity: 0.55;
+      z-index: 2;
+    }
+    .teacher-card[data-pos="right"] {
+      transform: translateX(calc(220px + 16px)) scale(0.88);
+      filter: blur(2px);
+      opacity: 0.55;
+      z-index: 2;
+    }
+    .teacher-card[data-pos="far-left"] {
+      transform: translateX(calc(-440px - 32px)) scale(0.75);
+      filter: blur(4px);
+      opacity: 0;
+      z-index: 1;
+    }
+    .teacher-card[data-pos="far-right"] {
+      transform: translateX(calc(440px + 32px)) scale(0.75);
+      filter: blur(4px);
+      opacity: 0;
+      z-index: 1;
+    }
+
     .teacher-card__photo {
-      width: 100%; height: 190px;
-      object-fit: cover; object-position: top;
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+      object-position: top;
       display: block;
+      pointer-events: none;
     }
     .teacher-card__placeholder {
-      width: 100%; height: 190px;
-      display: flex; align-items: center;
-      justify-content: center; font-size: 4rem;
+      width: 100%;
+      height: 190px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
     }
     .ph--blue   { background: linear-gradient(135deg,#dbeafe,#bfdbfe); }
     .ph--green  { background: linear-gradient(135deg,#dcfce7,#bbf7d0); }
     .ph--red    { background: linear-gradient(135deg,#fee2e2,#fecaca); }
     .ph--purple { background: linear-gradient(135deg,#ede9fe,#ddd6fe); }
     .ph--orange { background: linear-gradient(135deg,#ffedd5,#fed7aa); }
+
     .teacher-card__body { padding: 16px; }
     .teacher-card__name {
-      font-size: 1rem; font-weight: 800;
-      color: var(--gray-800); margin-bottom: 4px;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--gray-800);
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .teacher-card__subject {
-      font-size: 0.8rem; color: var(--gray-400);
-      font-weight: 600; margin-bottom: 10px;
-      display: flex; align-items: center; gap: 5px;
+      font-size: 0.8rem;
+      color: var(--gray-400);
+      font-weight: 600;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
     .teacher-card__footer {
-      display: flex; align-items: center;
+      display: flex;
+      align-items: center;
       justify-content: space-between;
     }
     .stars { color: #f59e0b; font-size: 0.8rem; letter-spacing: 1px; }
     .rating-num { font-size: 0.85rem; font-weight: 800; color: var(--gray-800); }
 
-    /* KARUSEL CONTROLS */
+    /* ===== TUGMALAR ===== */
     .carousel-controls {
-      display: flex; justify-content: center;
-      align-items: center; gap: 16px; margin-top: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      margin-top: 12px;
     }
     .carousel-btn {
-      width: 44px; height: 44px; border-radius: 50%;
+      width: 44px; height: 44px;
+      border-radius: 50%;
       border: 2px solid var(--gray-200);
-      background: var(--white); color: var(--blue);
-      font-size: 1rem; cursor: pointer;
+      background: var(--white);
+      color: var(--blue);
+      font-size: 1rem;
+      cursor: pointer;
       transition: var(--transition);
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
     .carousel-btn:hover { background: var(--blue); color: #fff; border-color: var(--blue); }
+    .carousel-btn:active { transform: scale(0.93); }
+
     .carousel-dots { display: flex; gap: 8px; }
     .carousel-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--gray-200); cursor: pointer;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--gray-200);
+      cursor: pointer;
       transition: all 0.3s ease;
+      border: none;
+      padding: 0;
     }
-    .carousel-dot.active { background: var(--blue); width: 24px; border-radius: 4px; }
+    .carousel-dot.active {
+      background: var(--blue);
+      width: 24px;
+      border-radius: 4px;
+    }
 
-    /* JOIN */
+    /* ===== JOIN ===== */
     .join-section {
-      background: linear-gradient(135deg,var(--blue) 0%,var(--blue-dark) 100%);
-      padding: 64px 24px; text-align: center; color: #fff;
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+      padding: 64px 24px;
+      text-align: center;
+      color: #fff;
     }
     .join-section h2 { font-size: 1.8rem; font-weight: 900; margin-bottom: 12px; }
     .join-section p  { font-size: 1rem; opacity: 0.9; margin-bottom: 28px; max-width: 500px; margin-left: auto; margin-right: auto; }
-    .join-section .btn { background:#fff; color:var(--blue-dark); font-size:1rem; padding:14px 32px; }
-    .join-section .btn:hover { background:var(--blue-light); transform:translateY(-2px); }
+    .join-section .btn { background: #fff; color: var(--blue-dark); font-size: 1rem; padding: 14px 32px; }
+    .join-section .btn:hover { background: var(--blue-light); transform: translateY(-2px); }
 
-    /* FOOTER ICONLAR */
+    /* ===== FOOTER ===== */
     .footer__socials a {
-      width: 38px; height: 38px; border-radius: 8px;
+      width: 38px; height: 38px;
+      border-radius: 8px;
       background: rgba(255,255,255,0.08);
       display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem; transition: var(--transition); color: var(--gray-400);
+      font-size: 1.1rem;
+      transition: var(--transition);
+      color: var(--gray-400);
     }
     .footer__socials a:hover { transform: translateY(-2px); }
     .footer__socials a.tg:hover  { background: #229ed9; color: #fff; }
     .footer__socials a.ig:hover  { background: #e1306c; color: #fff; }
     .footer__socials a.tel:hover { background: var(--green); color: #fff; }
 
-    /* MOBIL */
-    @media (max-width: 600px) {
-      .teacher-card { flex: 0 0 160px; }
+    /* ===== MOBIL (S20+ va shunga o'xshash) ===== */
+    @media (max-width: 768px) {
+      .carousel-track { height: 300px; }
+
+      .teacher-card {
+        width: 180px;
+      }
       .teacher-card__photo,
-      .teacher-card__placeholder { height: 150px; }
+      .teacher-card__placeholder { height: 155px; }
       .teacher-card__placeholder { font-size: 3rem; }
-      .teacher-card__body { padding: 10px; }
-      .teacher-card__name { font-size: 0.88rem; }
-      .carousel-btn { width: 38px; height: 38px; font-size: 0.85rem; }
+      .teacher-card__body { padding: 12px; }
+      .teacher-card__name { font-size: 0.9rem; }
+
+      .teacher-card[data-pos="left"] {
+        transform: translateX(calc(-180px - 12px)) scale(0.88);
+      }
+      .teacher-card[data-pos="right"] {
+        transform: translateX(calc(180px + 12px)) scale(0.88);
+      }
+      .teacher-card[data-pos="far-left"] {
+        transform: translateX(calc(-360px - 24px)) scale(0.75);
+      }
+      .teacher-card[data-pos="far-right"] {
+        transform: translateX(calc(360px + 24px)) scale(0.75);
+      }
+
+      .carousel-btn { width: 40px; height: 40px; font-size: 0.9rem; }
     }
+
+    @media (max-width: 400px) {
+      .carousel-track { height: 270px; }
+      .teacher-card { width: 155px; }
+      .teacher-card__photo,
+      .teacher-card__placeholder { height: 130px; }
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
@@ -176,17 +279,20 @@
       <div style="width:44px;height:44px;border:4px solid #e2e8f0;border-top-color:#2563eb;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px;"></div>
       <p style="color:#94a3b8;font-weight:600;">Ustozlar yuklanmoqda...</p>
     </div>
-    <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
 
     <!-- KARUSEL -->
     <div id="carouselBox" style="display:none;">
-      <div class="carousel-outer" id="carouselOuter">
+      <div class="carousel-wrapper" id="carouselWrapper">
         <div class="carousel-track" id="carouselTrack"></div>
       </div>
       <div class="carousel-controls">
-        <button class="carousel-btn" onclick="move(-1)"><i class="fas fa-chevron-left"></i></button>
+        <button class="carousel-btn" id="btnPrev" aria-label="Oldingi">
+          <i class="fas fa-chevron-left"></i>
+        </button>
         <div class="carousel-dots" id="carouselDots"></div>
-        <button class="carousel-btn" onclick="move(1)"><i class="fas fa-chevron-right"></i></button>
+        <button class="carousel-btn" id="btnNext" aria-label="Keyingi">
+          <i class="fas fa-chevron-right"></i>
+        </button>
       </div>
     </div>
 
@@ -255,38 +361,46 @@
   const RATINGS = [4.9, 4.8, 4.9, 4.7, 4.8, 4.9, 4.7];
 
   let teachers = [];
-  let repeated = [];
-  let current  = 0;
-  let autoTimer = null;
-  const GAP = 20;
+  let current  = 0;         // hozirgi markaziy karta indeksi
+  let isAnimating = false;
+  let autoTimer   = null;
 
-  function visibleCount() {
-    return window.innerWidth <= 600 ? 3 : 4;
-  }
+  // Pozitsiyalar: -2=far-left, -1=left, 0=center, 1=right, 2=far-right
+  const POS_NAMES = {
+    '-2': 'far-left',
+    '-1': 'left',
+    '0': 'center',
+    '1': 'right',
+    '2': 'far-right',
+  };
 
-  function cardWidth() {
-    const cards = document.querySelectorAll('.teacher-card');
-    if (!cards.length) return 220 + GAP;
-    return cards[0].offsetWidth + GAP;
+  function getPos(i) {
+    const n   = teachers.length;
+    let   rel = ((i - current) % n + n) % n;
+    if (rel > n / 2) rel -= n;           // -n/2 … +n/2
+    if (rel < -2) rel = -2;
+    if (rel >  2) rel =  2;
+    return rel;
   }
 
   function buildCards() {
     const track = document.getElementById('carouselTrack');
     track.innerHTML = '';
-    repeated.forEach((t, i) => {
+    teachers.forEach((t, i) => {
       const color  = COLORS[i % COLORS.length];
       const icon   = ICONS[i % ICONS.length];
       const rating = RATINGS[i % RATINGS.length];
       const stars  = '★'.repeat(Math.round(rating)) + '☆'.repeat(5 - Math.round(rating));
       const photo  = t.photoUrl
-        ? `<img class="teacher-card__photo" src="${t.photoUrl}" alt="${t.name}"
+              ? `<img class="teacher-card__photo" src="${t.photoUrl}" alt="${t.name}"
                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
            <div class="teacher-card__placeholder ph--${color}" style="display:none;">${icon}</div>`
-        : `<div class="teacher-card__placeholder ph--${color}">${icon}</div>`;
+              : `<div class="teacher-card__placeholder ph--${color}">${icon}</div>`;
 
       const card = document.createElement('div');
-      card.className = 'teacher-card';
-      card.innerHTML = `
+      card.className   = 'teacher-card';
+      card.dataset.idx = i;
+      card.innerHTML   = `
         ${photo}
         <div class="teacher-card__body">
           <div class="teacher-card__name">${t.name}</div>
@@ -296,87 +410,103 @@
             <span class="rating-num">${rating}</span>
           </div>
         </div>`;
+
+      // Karta bosilganda o'sha kartaga o'tish
+      card.addEventListener('click', () => {
+        const pos = getPos(i);
+        if (pos === 1)  move(1);
+        if (pos === -1) move(-1);
+      });
+
       track.appendChild(card);
     });
+    updatePositions();
   }
 
   function buildDots() {
     const dots = document.getElementById('carouselDots');
     dots.innerHTML = '';
     teachers.forEach((_, i) => {
-      const d = document.createElement('div');
+      const d     = document.createElement('button');
       d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-      d.onclick = () => goTo(i);
+      d.addEventListener('click', () => goTo(i));
       dots.appendChild(d);
     });
   }
 
-  function updateBlur() {
+  function updatePositions() {
     const cards = document.querySelectorAll('.teacher-card');
-    const vis   = visibleCount();
-    cards.forEach((card, i) => {
-      const rel = i - current;
-      card.classList.remove('blurred', 'active-card');
-      if (rel === 0 || rel === vis - 1) {
-        card.classList.add('blurred');
-      } else if (rel > 0 && rel < vis - 1) {
-        card.classList.add('active-card');
-      }
+    cards.forEach(card => {
+      const i   = parseInt(card.dataset.idx);
+      const pos = getPos(i);
+      card.setAttribute('data-pos', POS_NAMES[String(pos)] || 'far-right');
     });
   }
 
   function updateDots() {
-    const dots = document.querySelectorAll('.carousel-dot');
-    const idx  = current % teachers.length;
-    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-  }
-
-  function render(animate = true) {
-    const track = document.getElementById('carouselTrack');
-    track.style.transition = animate ? 'transform 0.6s cubic-bezier(0.4,0,0.2,1)' : 'none';
-    track.style.transform  = `translateX(-${current * cardWidth()}px)`;
-    updateBlur();
-    updateDots();
-  }
-
-  function move(dir) {
-    current += dir;
-    render();
-    resetAuto();
-
-    const track = document.getElementById('carouselTrack');
-    track.addEventListener('transitionend', function onEnd() {
-      track.removeEventListener('transitionend', onEnd);
-      const len = teachers.length;
-      const rep = repeated.length;
-      if (current >= rep - len) { current = len + (current - (rep - len)); render(false); }
-      if (current < len)        { current = rep - len - (len - current);   render(false); }
+    document.querySelectorAll('.carousel-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === current);
     });
   }
 
-  function goTo(idx) {
-    current = teachers.length + idx;
-    render();
+  function move(dir) {
+    if (isAnimating) return;
+    isAnimating = true;
+
+    current = ((current + dir) % teachers.length + teachers.length) % teachers.length;
+    updatePositions();
+    updateDots();
+
+    setTimeout(() => { isAnimating = false; }, 580);
     resetAuto();
   }
 
-  function startAuto() { autoTimer = setInterval(() => move(1), 3000); }
-  function resetAuto()  { clearInterval(autoTimer); startAuto(); }
+  function goTo(idx) {
+    if (idx === current) return;
+    const dir = ((idx - current + teachers.length) % teachers.length <= teachers.length / 2) ? 1 : -1;
+    // Tezda bir yo'nalishda yurish
+    function step() {
+      if (current === idx) return;
+      move(dir);
+      setTimeout(step, 100);
+    }
+    step();
+  }
 
-  // Touch/swipe
-  let touchX = 0;
-  document.getElementById('carouselOuter').addEventListener('touchstart', e => {
-    touchX = e.touches[0].clientX;
+  function startAuto() {
+    autoTimer = setInterval(() => move(1), 3200);
+  }
+  function resetAuto() {
+    clearInterval(autoTimer);
+    startAuto();
+  }
+
+  // Touch / swipe
+  let touchStartX = 0;
+  let touchStartY = 0;
+  const wrapper = document.getElementById('carouselWrapper');
+
+  wrapper.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
   }, { passive: true });
-  document.getElementById('carouselOuter').addEventListener('touchend', e => {
-    const diff = touchX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 40) move(diff > 0 ? 1 : -1);
-  });
+
+  wrapper.addEventListener('touchend', e => {
+    const dx = touchStartX - e.changedTouches[0].clientX;
+    const dy = Math.abs(touchStartY - e.changedTouches[0].clientY);
+    if (Math.abs(dx) > 40 && Math.abs(dx) > dy) {
+      move(dx > 0 ? 1 : -1);
+    }
+  }, { passive: true });
+
+  // Tugmalar
+  document.getElementById('btnPrev').addEventListener('click', () => move(-1));
+  document.getElementById('btnNext').addEventListener('click', () => move(1));
 
   async function loadTeachers() {
     try {
-      const res = await apiGet('/api/teachers');
-      teachers  = await res.json();
+      const res  = await apiGet('/api/teachers');
+      teachers   = await res.json();
 
       document.getElementById('loadingEl').style.display = 'none';
 
@@ -385,23 +515,18 @@
         return;
       }
 
-      // 3x takrorlaymiz — cheksiz karusel uchun
-      repeated = [...teachers, ...teachers, ...teachers];
-      current  = teachers.length;
-
+      current = 0;
       buildCards();
       buildDots();
-
       document.getElementById('carouselBox').style.display = 'block';
-      setTimeout(() => { render(false); startAuto(); }, 50);
+      startAuto();
 
-    } catch(err) {
+    } catch (err) {
       document.getElementById('loadingEl').style.display = 'none';
       document.getElementById('emptyEl').style.display = 'block';
     }
   }
 
-  window.addEventListener('resize', () => render(false));
   loadTeachers();
 </script>
 </body>
