@@ -4,6 +4,7 @@ import uz.mahliyoedu.entity.Teacher;
 import uz.mahliyoedu.service.TeacherService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
@@ -17,8 +18,7 @@ public class TeacherController {
         this.teacherService = teacherService;
     }
 
-    // GET /api/teachers — saytda ko'rsatish uchun aktiv ustozlar
-    // Bu endpoint hammaga ochiq
+    // GET /api/teachers — saytda ko'rsatish uchun aktiv ustozlar (ochiq)
     @GetMapping("/teachers")
     public ResponseEntity<List<Teacher>> getAllActive() {
         return ResponseEntity.ok(teacherService.getAllActive());
@@ -30,20 +30,38 @@ public class TeacherController {
         return ResponseEntity.ok(teacherService.getAll());
     }
 
-    // POST /api/admin/teachers — yangi ustoz qo'shish (admin uchun)
+    // POST /api/admin/teachers — yangi ustoz qo'shish
+    // multipart/form-data — rasm va ma'lumotlar birgalikda
     @PostMapping("/admin/teachers")
-    public ResponseEntity<Teacher> save(@RequestBody Teacher teacher) {
-        return ResponseEntity.status(201).body(teacherService.save(teacher));
+    public ResponseEntity<Teacher> create(
+            @RequestParam("name") String name,
+            @RequestParam("subject") String subject,
+            @RequestParam(value = "description", required = false) String description,
+            @RequestParam(value = "photo", required = false) MultipartFile photo) {
+        return ResponseEntity.status(201)
+            .body(teacherService.create(name, subject, description, photo));
     }
 
-    // DELETE /api/admin/teachers/{id} — ustozni o'chirish (admin uchun)
+    // PUT /api/admin/teachers/{id} — ustozni yangilash
+    @PutMapping("/admin/teachers/{id}")
+    public ResponseEntity<Teacher> update(
+            @PathVariable Long id,
+            @RequestParam("name") String name,
+            @RequestParam("subject") String subject,
+            @RequestParam(value = "description", required = false) String description,
+            @RequestParam(value = "photo", required = false) MultipartFile photo) {
+        return ResponseEntity.ok(
+            teacherService.update(id, name, subject, description, photo));
+    }
+
+    // DELETE /api/admin/teachers/{id} — o'chirish
     @DeleteMapping("/admin/teachers/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         teacherService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
-    // PUT /api/admin/teachers/{id}/toggle — aktiv/passiv qilish (admin uchun)
+    // PUT /api/admin/teachers/{id}/toggle — aktiv/passiv
     @PutMapping("/admin/teachers/{id}/toggle")
     public ResponseEntity<Teacher> toggleActive(@PathVariable Long id) {
         return ResponseEntity.ok(teacherService.toggleActive(id));

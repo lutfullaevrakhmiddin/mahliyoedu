@@ -3,42 +3,65 @@ package uz.mahliyoedu.service;
 import uz.mahliyoedu.entity.Teacher;
 import uz.mahliyoedu.repository.TeacherRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @Service
 public class TeacherService {
 
     private final TeacherRepository teacherRepository;
+    private final ImageKitService imageKitService;
 
-    // Constructor injection
-    public TeacherService(TeacherRepository teacherRepository) {
+    public TeacherService(TeacherRepository teacherRepository,
+                          ImageKitService imageKitService) {
         this.teacherRepository = teacherRepository;
+        this.imageKitService = imageKitService;
     }
 
-    // Saytda ko'rsatish uchun faqat aktiv ustozlarni olish
     public List<Teacher> getAllActive() {
         return teacherRepository.findByActiveTrue();
     }
 
-    // Admin uchun barcha ustozlarni olish
     public List<Teacher> getAll() {
         return teacherRepository.findAll();
     }
 
-    // Yangi ustoz qo'shish — admin uchun
-    public Teacher save(Teacher teacher) {
+    public Teacher create(String name, String subject,
+                          String description, MultipartFile photo) {
+        Teacher teacher = new Teacher();
+        teacher.setName(name);
+        teacher.setSubject(subject);
+        teacher.setDescription(description);
+        if (photo != null && !photo.isEmpty()) {
+            String photoUrl = imageKitService.uploadImage(
+                photo, "teacher_" + System.currentTimeMillis());
+            teacher.setPhotoUrl(photoUrl);
+        }
         return teacherRepository.save(teacher);
     }
 
-    // Ustozni o'chirish — admin uchun
+    public Teacher update(Long id, String name, String subject,
+                          String description, MultipartFile photo) {
+        Teacher teacher = teacherRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Ustoz topilmadi: " + id));
+        teacher.setName(name);
+        teacher.setSubject(subject);
+        teacher.setDescription(description);
+        if (photo != null && !photo.isEmpty()) {
+            String photoUrl = imageKitService.uploadImage(
+                photo, "teacher_" + System.currentTimeMillis());
+            teacher.setPhotoUrl(photoUrl);
+        }
+        return teacherRepository.save(teacher);
+    }
+
     public void delete(Long id) {
         teacherRepository.deleteById(id);
     }
 
-    // Ustozni aktiv/passiv qilish
     public Teacher toggleActive(Long id) {
         Teacher teacher = teacherRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Teacher not found: " + id));
+            .orElseThrow(() -> new RuntimeException("Ustoz topilmadi: " + id));
         teacher.setActive(!teacher.isActive());
         return teacherRepository.save(teacher);
     }

@@ -6,8 +6,20 @@
   <title>Bog'lanish — Mahliyo O'quv Markazi</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <!-- Font Awesome icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <link rel="stylesheet" href="css/style.css"/>
   <style>
+    /* NAVBAR BOG'LANISH TUGMASI ANIMATSIYA */
+    @keyframes pulse-green {
+      0%   { box-shadow: 0 0 0 0 rgba(22,163,74,0.5); }
+      70%  { box-shadow: 0 0 0 10px rgba(22,163,74,0); }
+      100% { box-shadow: 0 0 0 0 rgba(22,163,74,0); }
+    }
+    .navbar__cta {
+      animation: pulse-green 2.5s ease-in-out infinite !important;
+    }
+
     .contact-section { padding: 80px 0; }
     .contact-grid {
       display: grid;
@@ -19,21 +31,15 @@
     /* ALOQA MA'LUMOTLARI */
     .contact-info { display: flex; flex-direction: column; gap: 20px; }
     .contact-info__title {
-      font-size: 1.6rem;
-      font-weight: 900;
-      color: var(--gray-800);
-      margin-bottom: 8px;
+      font-size: 1.6rem; font-weight: 900;
+      color: var(--gray-800); margin-bottom: 8px;
     }
     .contact-info__desc {
-      font-size: 0.95rem;
-      color: var(--gray-600);
-      line-height: 1.8;
-      margin-bottom: 8px;
+      font-size: 0.95rem; color: var(--gray-600);
+      line-height: 1.8; margin-bottom: 8px;
     }
     .contact-item {
-      display: flex;
-      align-items: center;
-      gap: 16px;
+      display: flex; align-items: center; gap: 16px;
       padding: 18px 20px;
       background: var(--white);
       border-radius: var(--radius-sm);
@@ -47,158 +53,105 @@
       transform: translateX(4px);
     }
     .contact-item__icon {
-      width: 46px;
-      height: 46px;
+      width: 46px; height: 46px;
       border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3rem;
-      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; flex-shrink: 0;
     }
-    .contact-item__icon--blue  { background: var(--blue-light); }
-    .contact-item__icon--green { background: var(--green-light); }
-    .contact-item__icon--red   { background: var(--red-light); }
-    .contact-item__icon--tg    { background: #e8f4fd; }
+    .contact-item__icon--phone    { background: #f0fdf4; color: #16a34a; }
+    .contact-item__icon--telegram { background: #e8f4fd; color: #229ed9; }
+    .contact-item__icon--instagram{ background: #fdf2f8; color: #e1306c; }
+    .contact-item__icon--location { background: var(--red-light); color: var(--red); }
     .contact-item__label {
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: var(--gray-400);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 3px;
+      font-size: 0.78rem; font-weight: 700;
+      color: var(--gray-400); text-transform: uppercase;
+      letter-spacing: 0.5px; margin-bottom: 3px;
     }
     .contact-item__value {
-      font-size: 0.97rem;
-      font-weight: 700;
-      color: var(--gray-800);
+      font-size: 0.97rem; font-weight: 700; color: var(--gray-800);
     }
 
     /* XARITA */
     .map-box {
-      margin-top: 8px;
-      border-radius: var(--radius);
-      overflow: hidden;
-      border: 2px solid var(--gray-200);
-      background: var(--gray-100);
-      height: 200px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 10px;
-      color: var(--gray-400);
-      font-size: 0.9rem;
+      margin-top: 8px; border-radius: var(--radius);
+      overflow: hidden; border: 2px solid var(--gray-200);
+      background: var(--gray-100); height: 200px;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 10px;
+      color: var(--gray-400); font-size: 0.9rem;
     }
     .map-box .icon { font-size: 2.5rem; }
 
-    /* FORMA */
+    /* FORMA — yumShoq yashil kontainer */
     .contact-form-box {
-      background: var(--white);
+      background: #f0fdf4;
       border-radius: var(--radius);
-      border: 2px solid var(--gray-200);
+      border: 2px solid #bbf7d0;
       padding: 40px;
-      box-shadow: var(--shadow-sm);
+      box-shadow: 0 4px 24px rgba(22,163,74,0.08);
     }
     .contact-form-box h3 {
-      font-size: 1.4rem;
-      font-weight: 900;
-      color: var(--gray-800);
-      margin-bottom: 8px;
+      font-size: 1.4rem; font-weight: 900;
+      color: var(--gray-800); margin-bottom: 8px;
     }
     .contact-form-box p {
-      font-size: 0.92rem;
-      color: var(--gray-600);
-      margin-bottom: 28px;
-      line-height: 1.7;
+      font-size: 0.92rem; color: var(--gray-600);
+      margin-bottom: 28px; line-height: 1.7;
     }
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
+    .contact-form-box .form-group input,
+    .contact-form-box .form-group select {
+      background: var(--white);
+    }
+    .contact-form-box .form-group input:focus,
+    .contact-form-box .form-group select:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(22,163,74,0.10);
     }
     .submit-btn {
-      width: 100%;
-      padding: 14px;
-      font-size: 1rem;
-      font-weight: 800;
-      background: var(--blue);
-      color: #fff;
-      border: none;
+      width: 100%; padding: 14px;
+      font-size: 1rem; font-weight: 800;
+      background: var(--green);
+      color: #fff; border: none;
       border-radius: var(--radius-sm);
-      cursor: pointer;
-      transition: var(--transition);
+      cursor: pointer; transition: var(--transition);
       font-family: inherit;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
+      display: flex; align-items: center;
+      justify-content: center; gap: 8px;
     }
     .submit-btn:hover {
-      background: var(--blue-dark);
+      background: var(--green-dark);
       transform: translateY(-2px);
       box-shadow: var(--shadow-md);
     }
-    .submit-btn:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-      transform: none;
-    }
+    .submit-btn:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
 
     /* IJTIMOIY TARMOQLAR */
     .social-section {
-      background: var(--gray-50);
-      padding: 64px 24px;
-      text-align: center;
+      background: var(--gray-50); padding: 64px 24px; text-align: center;
     }
     .social-section h2 {
-      font-size: 1.8rem;
-      font-weight: 900;
-      color: var(--gray-800);
-      margin-bottom: 12px;
+      font-size: 1.8rem; font-weight: 900;
+      color: var(--gray-800); margin-bottom: 12px;
     }
-    .social-section p {
-      color: var(--gray-600);
-      margin-bottom: 36px;
-    }
+    .social-section p { color: var(--gray-600); margin-bottom: 36px; }
     .social-links {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
+      display: flex; justify-content: center;
+      gap: 20px; flex-wrap: wrap;
     }
     .social-link {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 16px 28px;
-      border-radius: var(--radius-sm);
-      font-weight: 700;
-      font-size: 1rem;
-      transition: var(--transition);
-      text-decoration: none;
+      display: flex; align-items: center; gap: 12px;
+      padding: 16px 28px; border-radius: var(--radius-sm);
+      font-weight: 700; font-size: 1rem;
+      transition: var(--transition); text-decoration: none;
     }
-    .social-link:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-lg);
-    }
-    .social-link__icon { font-size: 1.5rem; }
-    .social-link--tg {
-      background: #229ed9;
-      color: #fff;
-    }
-    .social-link--ig {
-      background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-      color: #fff;
-    }
-    .social-link--phone {
-      background: var(--green);
-      color: #fff;
-    }
+    .social-link:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+    .social-link__icon { font-size: 1.4rem; }
+    .social-link--tg    { background: #229ed9; color: #fff; }
+    .social-link--ig    { background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); color: #fff; }
+    .social-link--phone { background: var(--green); color: #fff; }
 
     @media (max-width: 900px) {
       .contact-grid { grid-template-columns: 1fr; }
-      .form-row { grid-template-columns: 1fr; }
       .contact-form-box { padding: 28px 20px; }
     }
   </style>
@@ -249,7 +202,9 @@
           </div>
 
           <a href="tel:+998991697769" class="contact-item">
-            <div class="contact-item__icon contact-item__icon--green">📞</div>
+            <div class="contact-item__icon contact-item__icon--phone">
+              <i class="fas fa-phone"></i>
+            </div>
             <div>
               <div class="contact-item__label">Telefon</div>
               <div class="contact-item__value">+998 99 169 77 69</div>
@@ -257,7 +212,9 @@
           </a>
 
           <a href="https://t.me/mahliyoeducation" target="_blank" class="contact-item">
-            <div class="contact-item__icon contact-item__icon--tg">✈️</div>
+            <div class="contact-item__icon contact-item__icon--telegram">
+              <i class="fab fa-telegram"></i>
+            </div>
             <div>
               <div class="contact-item__label">Telegram</div>
               <div class="contact-item__value">@mahliyoeducation</div>
@@ -265,7 +222,9 @@
           </a>
 
           <a href="https://instagram.com/mahliyoeducation" target="_blank" class="contact-item">
-            <div class="contact-item__icon contact-item__icon--red">📷</div>
+            <div class="contact-item__icon contact-item__icon--instagram">
+              <i class="fab fa-instagram"></i>
+            </div>
             <div>
               <div class="contact-item__label">Instagram</div>
               <div class="contact-item__value">@mahliyoeducation</div>
@@ -273,10 +232,12 @@
           </a>
 
           <div class="contact-item" style="cursor:default;">
-            <div class="contact-item__icon contact-item__icon--blue">📍</div>
+            <div class="contact-item__icon contact-item__icon--location">
+              <i class="fas fa-location-dot"></i>
+            </div>
             <div>
               <div class="contact-item__label">Manzil</div>
-              <div class="contact-item__value">Toshkent shahar</div>
+              <div class="contact-item__value">Samarqand, Payariq shahar</div>
             </div>
           </div>
         </div>
@@ -319,10 +280,10 @@
         </div>
 
         <button class="submit-btn" id="submitBtn" onclick="submitForm()">
-          📩 So'rov yuborish
+          <i class="fas fa-paper-plane"></i> So'rov yuborish
         </button>
 
-        <p style="font-size:0.82rem; color:var(--gray-400); margin-top:16px; text-align:center;">
+        <p style="font-size:0.82rem;color:var(--gray-400);margin-top:16px;text-align:center;">
           Ma'lumotlaringiz faqat markaz tomonidan ishlatiladi
         </p>
       </div>
@@ -336,15 +297,15 @@
   <p>Yangiliklar, foydali materiallar va natijalar uchun bizni kuzatib boring</p>
   <div class="social-links">
     <a href="https://t.me/mahliyoeducation" target="_blank" class="social-link social-link--tg">
-      <span class="social-link__icon">✈️</span>
+      <i class="fab fa-telegram social-link__icon"></i>
       <span>Telegram</span>
     </a>
     <a href="https://instagram.com/mahliyoeducation" target="_blank" class="social-link social-link--ig">
-      <span class="social-link__icon">📷</span>
+      <i class="fab fa-instagram social-link__icon"></i>
       <span>Instagram</span>
     </a>
     <a href="tel:+998991697769" class="social-link social-link--phone">
-      <span class="social-link__icon">📞</span>
+      <i class="fas fa-phone social-link__icon"></i>
       <span>+998 99 169 77 69</span>
     </a>
   </div>
@@ -356,13 +317,13 @@
     <div class="footer__brand">
       <div class="footer__brand-name">🎓 Mahliyo EDU</div>
       <p class="footer__brand-desc">
-        Toshkentning ishonchli o'quv markazi. Matematika, Fizika,
-        Ingliz tili va Milliy sertifikat yo'nalishlarida sifatli ta'lim.
+        Samarqand, Payariq shahridagi ishonchli o'quv markazi.
+        Matematika, Fizika, Ingliz tili va Milliy sertifikat yo'nalishlarida sifatli ta'lim.
       </p>
       <div class="footer__socials">
-        <a href="https://t.me/mahliyoeducation" target="_blank">✈️</a>
-        <a href="https://instagram.com/mahliyoeducation" target="_blank">📷</a>
-        <a href="tel:+998991697769">📞</a>
+        <a href="https://t.me/mahliyoeducation" target="_blank"><i class="fab fa-telegram"></i></a>
+        <a href="https://instagram.com/mahliyoeducation" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="tel:+998991697769"><i class="fas fa-phone"></i></a>
       </div>
     </div>
     <div class="footer__col">
@@ -379,15 +340,15 @@
     <div class="footer__col">
       <div class="footer__col-title">Aloqa</div>
       <ul>
-        <li><a href="tel:+998991697769">📞 +998 99 169 77 69</a></li>
-        <li><a href="https://t.me/mahliyoeducation">✈️ @mahliyoeducation</a></li>
-        <li><a href="https://instagram.com/mahliyoeducation">📷 @mahliyoeducation</a></li>
+        <li><a href="tel:+998991697769"><i class="fas fa-phone"></i> +998 99 169 77 69</a></li>
+        <li><a href="https://t.me/mahliyoeducation"><i class="fab fa-telegram"></i> @mahliyoeducation</a></li>
+        <li><a href="https://instagram.com/mahliyoeducation"><i class="fab fa-instagram"></i> @mahliyoeducation</a></li>
       </ul>
     </div>
   </div>
   <div class="footer__bottom">
     <span>© 2025 Mahliyo O'quv Markazi. Barcha huquqlar himoyalangan.</span>
-    <a href="admin/login.html" style="color: var(--gray-400); font-size:0.8rem;">Admin</a>
+    <a href="admin/login.html" style="color:var(--gray-400);font-size:0.8rem;">Admin</a>
   </div>
 </footer>
 
@@ -398,44 +359,32 @@
     const phone = document.getElementById('phoneInput').value.trim();
     const btn   = document.getElementById('submitBtn');
 
-    if (!name) {
-      showAlert('formAlert', 'error', '❌ Iltimos, ismingizni kiriting!');
-      return;
-    }
-    if (!phone) {
-      showAlert('formAlert', 'error', '❌ Iltimos, telefon raqamingizni kiriting!');
-      return;
-    }
-    if (phone.length < 9) {
-      showAlert('formAlert', 'error', '❌ Telefon raqam noto\'g\'ri kiritildi!');
-      return;
-    }
+    if (!name) { showAlert('formAlert','error','❌ Iltimos, ismingizni kiriting!'); return; }
+    if (!phone){ showAlert('formAlert','error','❌ Iltimos, telefon raqamingizni kiriting!'); return; }
+    if (phone.length < 9){ showAlert('formAlert','error','❌ Telefon raqam noto\'g\'ri!'); return; }
 
     btn.disabled = true;
-    btn.innerHTML = '⏳ Yuborilmoqda...';
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Yuborilmoqda...';
 
     try {
       const res = await apiPost('/api/applications', { name, phone });
       if (res.status === 201) {
-        showAlert('formAlert', 'success', '✅ So\'rovingiz qabul qilindi! Tez orada siz bilan bog\'lanamiz.');
-        document.getElementById('nameInput').value  = '';
-        document.getElementById('phoneInput').value = '';
+        showAlert('formAlert','success','✅ So\'rovingiz qabul qilindi! Tez orada siz bilan bog\'lanamiz.');
+        document.getElementById('nameInput').value   = '';
+        document.getElementById('phoneInput').value  = '';
         document.getElementById('courseSelect').value = '';
       } else {
-        showAlert('formAlert', 'error', '❌ Xatolik yuz berdi. Qaytadan urinib ko\'ring.');
+        showAlert('formAlert','error','❌ Xatolik yuz berdi. Qaytadan urinib ko\'ring.');
       }
-    } catch (err) {
-      showAlert('formAlert', 'error', '❌ Server bilan bog\'lanib bo\'lmadi. Telefon orqali murojaat qiling.');
+    } catch(err) {
+      showAlert('formAlert','error','❌ Server bilan bog\'lanib bo\'lmadi. Telefon orqali murojaat qiling.');
     }
 
     btn.disabled = false;
-    btn.innerHTML = '📩 So\'rov yuborish';
+    btn.innerHTML = '<i class="fas fa-paper-plane"></i> So\'rov yuborish';
   }
 
-  // Enter tugmasi bilan ham yuborish
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Enter') submitForm();
-  });
+  document.addEventListener('keydown', e => { if(e.key === 'Enter') submitForm(); });
 </script>
 </body>
 </html>
