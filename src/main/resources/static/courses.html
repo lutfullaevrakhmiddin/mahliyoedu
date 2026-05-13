@@ -6,14 +6,93 @@
   <title>Kurslar — Mahliyo O'quv Markazi</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <link rel="stylesheet" href="css/style.css"/>
   <style>
-    .courses-section { padding: 80px 0; }
+    .courses-section { padding: 60px 0; }
 
-    .courses-list {
-      display: flex;
-      flex-direction: column;
-      gap: 48px;
+    /* LOADING */
+    .loading-box {
+      text-align: center; padding: 80px 20px;
+    }
+    .spinner {
+      width: 48px; height: 48px;
+      border: 4px solid var(--gray-200);
+      border-top-color: var(--blue);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 20px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-box p { color: var(--gray-400); font-weight: 600; }
+
+    /* KURSLAR GRID */
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 28px;
+      margin-bottom: 48px;
+    }
+    .course-card {
+      background: var(--white);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 2px solid var(--gray-200);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+    .course-card:hover {
+      border-color: var(--blue);
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-5px);
+    }
+    .course-card__img {
+      width: 100%; height: 200px;
+      object-fit: cover; display: block;
+    }
+    .course-card__img-placeholder {
+      width: 100%; height: 200px;
+      display: flex; align-items: center;
+      justify-content: center; font-size: 4rem;
+    }
+    .course-card__img-placeholder--blue   { background: linear-gradient(135deg,#dbeafe,#bfdbfe); }
+    .course-card__img-placeholder--green  { background: linear-gradient(135deg,#dcfce7,#bbf7d0); }
+    .course-card__img-placeholder--red    { background: linear-gradient(135deg,#fee2e2,#fecaca); }
+    .course-card__img-placeholder--purple { background: linear-gradient(135deg,#ede9fe,#ddd6fe); }
+    .course-card__body { padding: 24px; }
+    .course-card__name {
+      font-size: 1.2rem; font-weight: 900;
+      color: var(--gray-800); margin-bottom: 12px;
+    }
+    .course-card__info {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      margin-bottom: 20px;
+    }
+    .course-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 12px; border-radius: 20px;
+      font-size: 0.8rem; font-weight: 700;
+    }
+    .course-tag--blue   { background: var(--blue-light);  color: var(--blue); }
+    .course-tag--green  { background: var(--green-light); color: var(--green); }
+    .course-tag--red    { background: var(--red-light);   color: var(--red); }
+    .course-card__btn {
+      display: block; width: 100%;
+      padding: 12px; text-align: center;
+      background: var(--blue); color: #fff;
+      border-radius: var(--radius-sm);
+      font-weight: 800; font-size: 0.95rem;
+      text-decoration: none; transition: var(--transition);
+    }
+    .course-card__btn:hover {
+      background: var(--blue-dark);
+      transform: translateY(-1px);
+    }
+
+    /* STATIK KURSLAR TAFSILOTI */
+    .course-details {
+      margin-top: 60px;
+      display: flex; flex-direction: column; gap: 40px;
     }
     .course-block {
       background: var(--white);
@@ -23,154 +102,87 @@
       box-shadow: var(--shadow-sm);
       transition: var(--transition);
     }
-    .course-block:hover {
-      box-shadow: var(--shadow-lg);
-      border-color: var(--blue);
-    }
+    .course-block:hover { box-shadow: var(--shadow-lg); border-color: var(--blue); }
     .course-block__header {
-      padding: 36px 40px;
-      display: flex;
-      align-items: center;
-      gap: 24px;
+      padding: 28px 32px;
+      display: flex; align-items: center; gap: 20px;
     }
-    .course-block__header--blue  { background: linear-gradient(135deg, var(--blue-light), #dbeafe); }
-    .course-block__header--green { background: linear-gradient(135deg, var(--green-light), #dcfce7); }
-    .course-block__header--red   { background: linear-gradient(135deg, var(--red-light), #fee2e2); }
+    .course-block__header--blue   { background: linear-gradient(135deg,var(--blue-light),#dbeafe); }
+    .course-block__header--green  { background: linear-gradient(135deg,var(--green-light),#dcfce7); }
+    .course-block__header--red    { background: linear-gradient(135deg,var(--red-light),#fee2e2); }
     .course-block__icon {
-      width: 72px;
-      height: 72px;
-      border-radius: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2.2rem;
-      flex-shrink: 0;
+      width: 60px; height: 60px; border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; flex-shrink: 0; color: #fff;
     }
-    .course-block__icon--blue  { background: var(--blue);  }
-    .course-block__icon--green { background: var(--green); }
-    .course-block__icon--red   { background: var(--red);   }
-    .course-block__title {
-      font-size: 1.6rem;
-      font-weight: 900;
-      color: var(--gray-800);
-      margin-bottom: 8px;
-    }
-    .course-block__subtitle {
-      font-size: 0.95rem;
-      color: var(--gray-600);
-    }
+    .course-block__icon--blue   { background: var(--blue); }
+    .course-block__icon--green  { background: var(--green); }
+    .course-block__icon--red    { background: var(--red); }
+    .course-block__title { font-size: 1.4rem; font-weight: 900; color: var(--gray-800); margin-bottom: 6px; }
+    .course-block__subtitle { font-size: 0.9rem; color: var(--gray-600); }
     .course-block__body {
-      padding: 36px 40px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
+      padding: 28px 32px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
     }
     .course-block__desc p {
-      font-size: 0.97rem;
-      color: var(--gray-600);
-      line-height: 1.8;
-      margin-bottom: 20px;
+      font-size: 0.95rem; color: var(--gray-600);
+      line-height: 1.8; margin-bottom: 16px;
     }
     .course-block__topics h4 {
-      font-size: 0.85rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--gray-400);
-      margin-bottom: 14px;
+      font-size: 0.8rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.5px;
+      color: var(--gray-400); margin-bottom: 12px;
     }
-    .course-block__topics ul {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+    .course-block__topics ul { display: flex; flex-direction: column; gap: 8px; }
     .course-block__topics ul li {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.93rem;
-      color: var(--gray-700);
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.9rem; color: var(--gray-700);
     }
     .course-block__topics ul li::before {
       content: '✓';
-      width: 22px;
-      height: 22px;
-      background: var(--green-light);
-      color: var(--green);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.75rem;
-      font-weight: 800;
+      width: 20px; height: 20px;
+      background: var(--green-light); color: var(--green);
+      border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; font-size: 0.7rem; font-weight: 800;
       flex-shrink: 0;
     }
-    .course-block__info {
-      padding: 20px 40px;
+    .course-block__footer {
+      padding: 16px 32px;
       background: var(--gray-50);
       border-top: 1px solid var(--gray-200);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 16px;
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 12px;
     }
-    .course-info-items {
-      display: flex;
-      gap: 32px;
-      flex-wrap: wrap;
+    .course-meta { display: flex; gap: 24px; flex-wrap: wrap; }
+    .course-meta-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.88rem; color: var(--gray-600); font-weight: 600;
     }
-    .course-info-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.9rem;
-      color: var(--gray-600);
-      font-weight: 600;
-    }
-    .course-info-item span:first-child { font-size: 1.1rem; }
+    .course-meta-item i { color: var(--blue); }
 
     /* FAQ */
     .faq { padding: 80px 0; background: var(--gray-50); }
     .faq__list { max-width: 760px; margin: 0 auto; }
-    .faq__item {
-      background: var(--white);
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--gray-200);
-      margin-bottom: 12px;
-      overflow: hidden;
-    }
+    .faq__item { background: var(--white); border-radius: var(--radius-sm); border: 1px solid var(--gray-200); margin-bottom: 12px; overflow: hidden; }
     .faq__question {
-      padding: 20px 24px;
-      font-weight: 700;
-      font-size: 0.97rem;
-      color: var(--gray-800);
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      padding: 18px 24px; font-weight: 700; font-size: 0.95rem;
+      color: var(--gray-800); cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
       transition: var(--transition);
     }
     .faq__question:hover { background: var(--blue-light); color: var(--blue); }
-    .faq__question.open { background: var(--blue); color: #fff; }
+    .faq__question.open  { background: var(--blue); color: #fff; }
     .faq__arrow { font-size: 0.8rem; transition: var(--transition); }
     .faq__question.open .faq__arrow { transform: rotate(180deg); }
-    .faq__answer {
-      display: none;
-      padding: 16px 24px;
-      font-size: 0.93rem;
-      color: var(--gray-600);
-      line-height: 1.8;
-      border-top: 1px solid var(--gray-100);
-    }
+    .faq__answer { display: none; padding: 16px 24px; font-size: 0.92rem; color: var(--gray-600); line-height: 1.8; border-top: 1px solid var(--gray-100); }
     .faq__answer.open { display: block; }
 
     @media (max-width: 768px) {
-      .course-block__body { grid-template-columns: 1fr; gap: 24px; }
-      .course-block__header { padding: 24px; }
-      .course-block__body { padding: 24px; }
-      .course-block__info { padding: 16px 24px; }
-      .course-info-items { gap: 16px; }
+      .course-block__body { grid-template-columns: 1fr; gap: 20px; }
+      .course-block__header { padding: 20px; }
+      .course-block__body { padding: 20px; }
+      .course-block__footer { padding: 14px 20px; }
+      .courses-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -203,15 +215,29 @@
   <p>Har bir o'quvchi uchun mos yo'nalish — sifatli ta'lim bilan muvaffaqiyatga erishing</p>
 </div>
 
-<!-- KURSLAR -->
+<!-- API DAN KURSLAR -->
 <section class="courses-section">
   <div class="container">
-    <div class="courses-list">
+    <div class="section-header">
+      <div class="badge badge--blue">Yo'nalishlar</div>
+      <h2 class="section-title">Mavjud kurslar</h2>
+      <p class="section-subtitle">Bizning barcha ta'lim yo'nalishlari</p>
+    </div>
 
-      <!-- MATEMATIKA VA FIZIKA -->
+    <!-- LOADING -->
+    <div class="loading-box" id="loadingEl">
+      <div class="spinner"></div>
+      <p>Kurslar yuklanmoqda...</p>
+    </div>
+
+    <!-- GRID -->
+    <div class="courses-grid" id="coursesGrid" style="display:none;"></div>
+
+    <!-- TAFSILOT -->
+    <div class="course-details" id="courseDetails" style="display:none;">
       <div class="course-block">
         <div class="course-block__header course-block__header--blue">
-          <div class="course-block__icon course-block__icon--blue">📐</div>
+          <div class="course-block__icon course-block__icon--blue"><i class="fas fa-square-root-variable"></i></div>
           <div>
             <div class="course-block__title">Matematika va Fizika</div>
             <div class="course-block__subtitle">Aniq fanlar bo'yicha chuqur bilim</div>
@@ -219,15 +245,8 @@
         </div>
         <div class="course-block__body">
           <div class="course-block__desc">
-            <p>
-              Matematika va Fizika kursi abituriyentlar va maktab o'quvchilari
-              uchun maxsus ishlab chiqilgan. Har bir mavzu nazariy va amaliy
-              jihatdan o'rgatiladi.
-            </p>
-            <p>
-              DTM imtihonlariga to'liq tayyorgarlik ko'rasiz. Kichik guruhlar
-              (8-10 kishi) tufayli har bir o'quvchiga individual e'tibor beriladi.
-            </p>
+            <p>Matematika va Fizika kursi abituriyentlar va maktab o'quvchilari uchun maxsus ishlab chiqilgan. Har bir mavzu nazariy va amaliy jihatdan o'rgatiladi.</p>
+            <p>DTM imtihonlariga to'liq tayyorgarlik ko'rasiz. Kichik guruhlar tufayli har bir o'quvchiga individual e'tibor beriladi.</p>
             <a href="contact.html" class="btn btn--primary">Ro'yxatdan o'tish →</a>
           </div>
           <div class="course-block__topics">
@@ -238,26 +257,23 @@
               <li>Trigonometriya</li>
               <li>Mexanika asoslari</li>
               <li>Elektr va magnetizm</li>
-              <li>Optika va termodinamika</li>
               <li>DTM test mashqlari</li>
             </ul>
           </div>
         </div>
-        <div class="course-block__info">
-          <div class="course-info-items">
-            <div class="course-info-item"><span>👥</span><span>8-10 kishi (guruh)</span></div>
-            <div class="course-info-item"><span>📅</span><span>Haftada 3 marta</span></div>
-            <div class="course-info-item"><span>🕐</span><span>1.5 soat (dars)</span></div>
-            <div class="course-info-item"><span>📊</span><span>Boshlang'ich → Yuqori</span></div>
+        <div class="course-block__footer">
+          <div class="course-meta">
+            <div class="course-meta-item"><i class="fas fa-users"></i> 8-10 kishi</div>
+            <div class="course-meta-item"><i class="fas fa-calendar"></i> Haftada 3 marta</div>
+            <div class="course-meta-item"><i class="fas fa-clock"></i> 1.5 soat</div>
           </div>
           <a href="contact.html" class="btn btn--outline">Batafsil →</a>
         </div>
       </div>
 
-      <!-- INGLIZ TILI -->
       <div class="course-block">
         <div class="course-block__header course-block__header--green">
-          <div class="course-block__icon course-block__icon--green">🌍</div>
+          <div class="course-block__icon course-block__icon--green"><i class="fas fa-earth-americas"></i></div>
           <div>
             <div class="course-block__title">Ingliz tili</div>
             <div class="course-block__subtitle">A1 darajadan IELTS gacha</div>
@@ -265,16 +281,8 @@
         </div>
         <div class="course-block__body">
           <div class="course-block__desc">
-            <p>
-              Ingliz tili kursimizda so'zlashuv, grammatika, yozish va
-              tinglash ko'nikmalarini rivojlantirasiz. Har bir daraja
-              uchun alohida guruhlar mavjud.
-            </p>
-            <p>
-              IELTS va CEFR sertifikatlari uchun maxsus tayyorgarlik
-              dasturi. Zamonaviy o'qitish metodlari va autentik materiallar
-              bilan ishlaysiz.
-            </p>
+            <p>Ingliz tili kursimizda so'zlashuv, grammatika, yozish va tinglash ko'nikmalarini rivojlantirasiz. Har bir daraja uchun alohida guruhlar mavjud.</p>
+            <p>IELTS va CEFR sertifikatlari uchun maxsus tayyorgarlik dasturi. Zamonaviy o'qitish metodlari bilan ishlaysiz.</p>
             <a href="contact.html" class="btn btn--green">Ro'yxatdan o'tish →</a>
           </div>
           <div class="course-block__topics">
@@ -285,26 +293,23 @@
               <li>Reading & Writing</li>
               <li>Listening skills</li>
               <li>IELTS tayyorgarligi</li>
-              <li>Business English</li>
               <li>Kundalik so'zlashuv</li>
             </ul>
           </div>
         </div>
-        <div class="course-block__info">
-          <div class="course-info-items">
-            <div class="course-info-item"><span>👥</span><span>6-8 kishi (guruh)</span></div>
-            <div class="course-info-item"><span>📅</span><span>Haftada 3 marta</span></div>
-            <div class="course-info-item"><span>🕐</span><span>1.5 soat (dars)</span></div>
-            <div class="course-info-item"><span>📊</span><span>A1 → C1 darajalar</span></div>
+        <div class="course-block__footer">
+          <div class="course-meta">
+            <div class="course-meta-item"><i class="fas fa-users"></i> 6-8 kishi</div>
+            <div class="course-meta-item"><i class="fas fa-calendar"></i> Haftada 3 marta</div>
+            <div class="course-meta-item"><i class="fas fa-clock"></i> 1.5 soat</div>
           </div>
           <a href="contact.html" class="btn btn--outline">Batafsil →</a>
         </div>
       </div>
 
-      <!-- MILLIY SERTIFIKAT -->
       <div class="course-block">
         <div class="course-block__header course-block__header--red">
-          <div class="course-block__icon course-block__icon--red">🎓</div>
+          <div class="course-block__icon course-block__icon--red"><i class="fas fa-graduation-cap"></i></div>
           <div>
             <div class="course-block__title">Milliy Sertifikat</div>
             <div class="course-block__subtitle">DTM imtihonlariga chuqur tayyorgarlik</div>
@@ -312,15 +317,8 @@
         </div>
         <div class="course-block__body">
           <div class="course-block__desc">
-            <p>
-              Milliy sertifikat kursi DTM imtihonlariga to'liq tayyorlanishni
-              ta'minlaydi. Har yili o'quvchilarimiz yuqori ball bilan
-              universitetlarga kiradi.
-            </p>
-            <p>
-              Imtihon formatiga mos test mashqlari, vaqtni boshqarish
-              strategiyalari va psixologik tayyorgarlik — hammasi bir joyda.
-            </p>
+            <p>Milliy sertifikat kursi DTM imtihonlariga to'liq tayyorlanishni ta'minlaydi. Har yili o'quvchilarimiz yuqori ball bilan universitetlarga kiradi.</p>
+            <p>Imtihon formatiga mos test mashqlari, vaqtni boshqarish strategiyalari va psixologik tayyorgarlik.</p>
             <a href="contact.html" class="btn btn--primary">Ro'yxatdan o'tish →</a>
           </div>
           <div class="course-block__topics">
@@ -331,22 +329,19 @@
               <li>Tarix va Geografiya</li>
               <li>Test strategiyalari</li>
               <li>Mock imtihonlar</li>
-              <li>Natijalar tahlili</li>
               <li>Psixologik tayyorgarlik</li>
             </ul>
           </div>
         </div>
-        <div class="course-block__info">
-          <div class="course-info-items">
-            <div class="course-info-item"><span>👥</span><span>10-12 kishi (guruh)</span></div>
-            <div class="course-info-item"><span>📅</span><span>Haftada 5 marta</span></div>
-            <div class="course-info-item"><span>🕐</span><span>2 soat (dars)</span></div>
-            <div class="course-info-item"><span>📊</span><span>Intensiv dastur</span></div>
+        <div class="course-block__footer">
+          <div class="course-meta">
+            <div class="course-meta-item"><i class="fas fa-users"></i> 10-12 kishi</div>
+            <div class="course-meta-item"><i class="fas fa-calendar"></i> Haftada 5 marta</div>
+            <div class="course-meta-item"><i class="fas fa-clock"></i> 2 soat</div>
           </div>
           <a href="contact.html" class="btn btn--outline">Batafsil →</a>
         </div>
       </div>
-
     </div>
   </div>
 </section>
@@ -362,23 +357,19 @@
     <div class="faq__list">
       <div class="faq__item">
         <div class="faq__question">Darslar qaysi vaqtlarda bo'ladi? <span class="faq__arrow">▼</span></div>
-        <div class="faq__answer">Darslar ertalab (09:00-12:00) va kechqurun (15:00-20:00) vaqtlarida bo'ladi. Siz o'zingizga qulay guruhni tanlashingiz mumkin.</div>
+        <div class="faq__answer">Darslar ertalab (09:00-12:00) va kechqurun (15:00-20:00) vaqtlarida bo'ladi.</div>
       </div>
       <div class="faq__item">
         <div class="faq__question">Guruhda nechta o'quvchi bo'ladi? <span class="faq__arrow">▼</span></div>
-        <div class="faq__answer">Kurs turiga qarab guruhda 6 dan 12 tagacha o'quvchi bo'ladi. Bu har bir o'quvchiga individual e'tibor berishga imkon beradi.</div>
+        <div class="faq__answer">Kurs turiga qarab guruhda 6 dan 12 tagacha o'quvchi bo'ladi.</div>
       </div>
       <div class="faq__item">
         <div class="faq__question">Sinov darsi bor bo'lsa? <span class="faq__arrow">▼</span></div>
-        <div class="faq__answer">Ha, har bir yo'nalish uchun 1 ta bepul sinov darsi mavjud. Ro'yxatdan o'tib, guruh bilan tanishib olishingiz mumkin.</div>
-      </div>
-      <div class="faq__item">
-        <div class="faq__question">O'quvchilar darajasi qanday aniqlanadi? <span class="faq__arrow">▼</span></div>
-        <div class="faq__answer">Birinchi darsda qisqa test o'tkaziladi va natijasiga qarab o'quvchi mos guruhga joylashtiriladi.</div>
+        <div class="faq__answer">Ha, har bir yo'nalish uchun 1 ta bepul sinov darsi mavjud.</div>
       </div>
       <div class="faq__item">
         <div class="faq__question">To'lov qanday amalga oshiriladi? <span class="faq__arrow">▼</span></div>
-        <div class="faq__answer">To'lov har oyda bir marta amalga oshiriladi. Naqd pul yoki plastik karta orqali to'lash mumkin. Batafsil ma'lumot uchun biz bilan bog'laning.</div>
+        <div class="faq__answer">To'lov har oyda bir marta amalga oshiriladi. Naqd pul yoki plastik karta orqali to'lash mumkin.</div>
       </div>
     </div>
   </div>
@@ -390,13 +381,13 @@
     <div class="footer__brand">
       <div class="footer__brand-name">🎓 Mahliyo EDU</div>
       <p class="footer__brand-desc">
-        Toshkentning ishonchli o'quv markazi. Matematika, Fizika,
-        Ingliz tili va Milliy sertifikat yo'nalishlarida sifatli ta'lim.
+        Samarqand, Payariq shahridagi ishonchli o'quv markazi.
+        Matematika, Fizika, Ingliz tili va Milliy sertifikat yo'nalishlarida sifatli ta'lim.
       </p>
       <div class="footer__socials">
-        <a href="https://t.me/mahliyoeducation" target="_blank">✈️</a>
-        <a href="https://instagram.com/mahliyoeducation" target="_blank">📷</a>
-        <a href="tel:+998991697769">📞</a>
+        <a href="https://t.me/mahliyoeducation" target="_blank" class="tg"><i class="fab fa-telegram"></i></a>
+        <a href="https://instagram.com/mahliyoeducation" target="_blank" class="ig"><i class="fab fa-instagram"></i></a>
+        <a href="tel:+998991697769" class="tel"><i class="fas fa-phone"></i></a>
       </div>
     </div>
     <div class="footer__col">
@@ -413,21 +404,76 @@
     <div class="footer__col">
       <div class="footer__col-title">Aloqa</div>
       <ul>
-        <li><a href="tel:+998991697769">📞 +998 99 169 77 69</a></li>
-        <li><a href="https://t.me/mahliyoeducation">✈️ @mahliyoeducation</a></li>
-        <li><a href="https://instagram.com/mahliyoeducation">📷 @mahliyoeducation</a></li>
+        <li><a href="tel:+998991697769"><i class="fas fa-phone"></i> +998 99 169 77 69</a></li>
+        <li><a href="https://t.me/mahliyoeducation"><i class="fab fa-telegram"></i> @mahliyoeducation</a></li>
+        <li><a href="https://instagram.com/mahliyoeducation"><i class="fab fa-instagram"></i> @mahliyoeducation</a></li>
       </ul>
     </div>
   </div>
   <div class="footer__bottom">
     <span>© 2025 Mahliyo O'quv Markazi. Barcha huquqlar himoyalangan.</span>
-    <a href="admin/login.html" style="color: var(--gray-400); font-size:0.8rem;">Admin</a>
+    <a href="admin/login.html" style="color:var(--gray-400);font-size:0.8rem;">Admin</a>
   </div>
 </footer>
 
 <script src="js/main.js"></script>
 <script>
-  // FAQ accordion
+  const COLORS  = ['blue','green','red','purple'];
+  const ICONS   = ['📐','🌍','🎓','📚'];
+
+  async function loadCourses() {
+    const loading = document.getElementById('loadingEl');
+    const grid    = document.getElementById('coursesGrid');
+    const details = document.getElementById('courseDetails');
+
+    try {
+      const res     = await apiGet('/api/courses');
+      const courses = await res.json();
+
+      loading.style.display = 'none';
+
+      if (!courses || courses.length === 0) {
+        details.style.display = 'flex';
+        return;
+      }
+
+      grid.style.display = 'grid';
+      grid.innerHTML = courses.map((c, i) => {
+        const color = COLORS[i % COLORS.length];
+        const icon  = ICONS[i % ICONS.length];
+        const img   = c.imageUrl
+          ? `<img class="course-card__img" src="${c.imageUrl}" alt="${c.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+             <div class="course-card__img-placeholder course-card__img-placeholder--${color}" style="display:none;">${icon}</div>`
+          : `<div class="course-card__img-placeholder course-card__img-placeholder--${color}">${icon}</div>`;
+
+        return `
+          <div class="course-card">
+            ${img}
+            <div class="course-card__body">
+              <div class="course-card__name">${c.name}</div>
+              <div class="course-card__info">
+                <span class="course-tag course-tag--${color}"><i class="fas fa-book"></i> Kurs</span>
+                <span class="course-tag course-tag--green"><i class="fas fa-check-circle"></i> Faol</span>
+              </div>
+              <a href="contact.html" class="course-card__btn">
+                <i class="fas fa-arrow-right"></i> Ro'yxatdan o'tish
+              </a>
+            </div>
+          </div>`;
+      }).join('');
+
+      // Tafsilotlarni ham ko'rsatamiz
+      details.style.display = 'flex';
+
+    } catch(err) {
+      loading.style.display = 'none';
+      details.style.display = 'flex';
+    }
+  }
+
+  loadCourses();
+
+  // FAQ
   document.querySelectorAll('.faq__question').forEach(q => {
     q.addEventListener('click', () => {
       const answer = q.nextElementSibling;
@@ -436,10 +482,7 @@
         el.classList.remove('open');
         el.nextElementSibling.classList.remove('open');
       });
-      if (!isOpen) {
-        q.classList.add('open');
-        answer.classList.add('open');
-      }
+      if (!isOpen) { q.classList.add('open'); answer.classList.add('open'); }
     });
   });
 </script>
