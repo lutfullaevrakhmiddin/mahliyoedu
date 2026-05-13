@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <style>
     .about-grid {
       display: grid;
@@ -191,7 +192,6 @@
 </head>
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar">
   <div class="navbar__inner">
     <a href="index.html" class="navbar__logo">
@@ -212,13 +212,11 @@
   </div>
 </nav>
 
-<!-- PAGE HERO -->
 <div class="page-hero">
   <h1>Biz haqimizda</h1>
   <p>Mahliyo O'quv Markazi — bilim va muvaffaqiyat o'rtasidagi ko'prik</p>
 </div>
 
-<!-- HAQIMIZDA -->
 <section class="section">
   <div class="container">
     <div class="about-grid">
@@ -268,7 +266,6 @@
   </div>
 </section>
 
-<!-- MISSIYA -->
 <section class="mission">
   <h2>Bizning missiyamiz</h2>
   <p>
@@ -294,7 +291,6 @@
   </div>
 </section>
 
-<!-- TARIXI -->
 <section class="timeline section">
   <div class="container">
     <div class="section-header">
@@ -335,19 +331,20 @@
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer class="footer">
   <div class="footer__inner">
     <div class="footer__brand">
       <div class="footer__brand-name">🎓 Mahliyo EDU</div>
       <p class="footer__brand-desc">
-        Toshkentning ishonchli o'quv markazi. Matematika, Fizika,
-        Ingliz tili va Milliy sertifikat yo'nalishlarida sifatli ta'lim.
+        Matematika<br>
+        Fizika<br>
+        Ingliz tili<br>
+        Milliy sertifikat
       </p>
       <div class="footer__socials">
-        <a href="https://t.me/mahliyoeducation" target="_blank">✈️</a>
-        <a href="https://instagram.com/mahliyoeducation" target="_blank">📷</a>
-        <a href="tel:+998991697769">📞</a>
+        <a href="https://t.me/mahliyoeducation" target="_blank"><i class="fa-brands fa-telegram"></i></a>
+        <a href="https://instagram.com/mahliyoeducation" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+        <a href="tel:+998991697769"><i class="fa-solid fa-phone"></i></a>
       </div>
     </div>
     <div class="footer__col">
@@ -364,15 +361,17 @@
     <div class="footer__col">
       <div class="footer__col-title">Aloqa</div>
       <ul>
-        <li><a href="tel:+998991697769">📞 +998 99 169 77 69</a></li>
-        <li><a href="https://t.me/mahliyoeducation">✈️ @mahliyoeducation</a></li>
-        <li><a href="https://instagram.com/mahliyoeducation">📷 @mahliyoeducation</a></li>
+        <li><a href="tel:+998991697769"><i class="fa-solid fa-phone"></i> +998 99 169 77 69</a></li>
+        <li><a href="https://t.me/mahliyoeducation"><i class="fa-brands fa-telegram"></i> @mahliyoeducation</a></li>
+        <li><a href="https://instagram.com/mahliyoeducation"><i class="fa-brands fa-instagram"></i> @mahliyoeducation</a></li>
       </ul>
     </div>
   </div>
   <div class="footer__bottom">
     <span>© 2025 Mahliyo O'quv Markazi. Barcha huquqlar himoyalangan.</span>
-    <a href="admin/login.html" style="color: var(--gray-400); font-size:0.8rem;">Admin</a>
+    <a href="admin/login.html" style="color: var(--gray-400); font-size:0.8rem; display: inline-flex; align-items: center; gap: 5px;">
+      <i class="fa-solid fa-lock" style="font-size: 0.7rem;"></i> UZB
+    </a>
   </div>
 </footer>
 
