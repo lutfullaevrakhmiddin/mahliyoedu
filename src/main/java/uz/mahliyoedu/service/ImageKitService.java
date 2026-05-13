@@ -1,58 +1,72 @@
 package uz.mahliyoedu.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.*;
 import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import java.net.http.*;
 import java.util.Base64;
 
 @Service
 public class ImageKitService {
 
-    @Value("${IMAGEKIT_PRIVATE_KEY}")
+    @Value("${imagekit.private-key}")
     private String privateKey;
 
-    @Value("${IMAGEKIT_URL_ENDPOINT}")
-    private String urlEndpoint;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-    // Rasmni ImageKit ga yuklaydi va URL qaytaradi
     public String uploadImage(MultipartFile file, String fileName) {
         try {
-            // Faylni Base64 ga aylantirish
-            byte[] bytes = file.getBytes();
-            String base64 = Base64.getEncoder().encodeToString(bytes);
-
-            // Basic Auth uchun — privateKey + ":" ni Base64 ga aylantirish
             String auth = Base64.getEncoder()
                 .encodeToString((privateKey + ":").getBytes());
 
-            // JSON body
-            String body = String.format(
-                "{\"file\":\"%s\",\"fileName\":\"%s\",\"folder\":\"/mahliyoedu/\"}",
-                base64, fileName
-            );
+            String boundary = "----FormBoundary" + System.currentTimeMillis();
 
-            // HTTP so'rov yuborish
+            // Multipart body yaratish
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+            // fileName field
+            baos.write(("--" + boundary + "\r\n").getBytes());
+            baos.write("Content-Disposition: form-data; name=\"fileName\"\r\n\r\n".getBytes());
+            baos.write((fileName + "\r\n").getBytes());
+
+            // folder field
+            baos.write(("--" + boundary + "\r\n").getBytes());
+            baos.write("Content-Disposition: form-data; name=\"folder\"\r\n\r\n".getBytes());
+            baos.write("/mahliyoedu/\r\n".getBytes());
+
+            // file field
+            baos.write(("--" + boundary + "\r\n").getBytes());
+            baos.write(("Content-Disposition: form-data; name=\"file\"; filename=\"" + fileName + "\"\r\n").getBytes());
+            baos.write(("Content-Type: " + file.getContentType() + "\r\n\r\n").getBytes());
+            baos.write(file.getBytes());
+            baos.write("\r\n".getBytes());
+
+            // End boundary
+            baos.write(("--" + boundary + "--\r\n").getBytes());
+
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://upload.imagekit.io/api/v1/files/upload"))
-                .header("Content-Type", "application/json")
+                .header("Content-Type", "multipart/form-data; boundary=" + boundary)
                 .header("Authorization", "Basic " + auth)
-                .POST(HttpRequest.BodyPublishers.ofString(body))
+                .POST(HttpRequest.BodyPublishers.ofByteArray(baos.toByteArray()))
                 .build();
 
             HttpResponse<String> response = client.send(request,
                 HttpResponse.BodyHandlers.ofString());
 
-            // Javobdan URL ni olish
-            String responseBody = response.body();
-            int urlStart = responseBody.indexOf("\"url\":\"") + 7;
-            int urlEnd = responseBody.indexOf("\"", urlStart);
-            return responseBody.substring(urlStart, urlEnd);
+            System.out.println("ImageKit response: " + response.body());
+
+            JsonNode json = objectMapper.readTree(response.body());
+            if (json.has("url")) {
+                return json.get("url").asText();
+            }
+            throw new RuntimeException("ImageKit xato: " + response.body());
 
         } catch (Exception e) {
             throw new RuntimeException("Rasm yuklashda xato: " + e.getMessage());
