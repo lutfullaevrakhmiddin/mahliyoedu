@@ -1,5 +1,5 @@
 // ========== SOZLAMALAR ==========
-const API_BASE = 'http://localhost:8080';
+const API_BASE = 'https://mahliyoedu-production.up.railway.app';
 
 // ========== NAVBAR ACTIVE LINK ==========
 document.addEventListener('DOMContentLoaded', () => {
