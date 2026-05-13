@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bog'lanish — Mahliyo O'quv Markazi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .contact-section { padding: 80px 0; }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    /* ALOQA MA'LUMOTLARI */
+    .contact-info { display: flex; flex-direction: column; gap: 20px; }
+    .contact-info__title {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--gray-800);
+      margin-bottom: 8px;
+    }
+    .contact-info__desc {
+      font-size: 0.95rem;
+      color: var(--gray-600);
+      line-height: 1.8;
+      margin-bottom: 8px;
+    }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 20px;
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--gray-200);
+      transition: var(--transition);
+      text-decoration: none;
+    }
+    .contact-item:hover {
+      border-color: var(--blue);
+      box-shadow: var(--shadow-md);
+      transform: translateX(4px);
+    }
+    .contact-item__icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .contact-item__icon--blue  { background: var(--blue-light); }
+    .contact-item__icon--green { background: var(--green-light); }
+    .contact-item__icon--red   { background: var(--red-light); }
+    .contact-item__icon--tg    { background: #e8f4fd; }
+    .contact-item__label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--gray-400);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 3px;
+    }
+    .contact-item__value {
+      font-size: 0.97rem;
+      font-weight: 700;
+      color: var(--gray-800);
+    }
+
+    /* XARITA */
+    .map-box {
+      margin-top: 8px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 2px solid var(--gray-200);
+      background: var(--gray-100);
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 10px;
+      color: var(--gray-400);
+      font-size: 0.9rem;
+    }
+    .map-box .icon { font-size: 2.5rem; }
+
+    /* FORMA */
+    .contact-form-box {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 2px solid var(--gray-200);
+      padding: 40px;
+      box-shadow: var(--shadow-sm);
+    }
+    .contact-form-box h3 {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--gray-800);
+      margin-bottom: 8px;
+    }
+    .contact-form-box p {
+      font-size: 0.92rem;
+      color: var(--gray-600);
+      margin-bottom: 28px;
+      line-height: 1.7;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      font-size: 1rem;
+      font-weight: 800;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .submit-btn:hover {
+      background: var(--blue-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    .submit-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* IJTIMOIY TARMOQLAR */
+    .social-section {
+      background: var(--gray-50);
+      padding: 64px 24px;
+      text-align: center;
+    }
+    .social-section h2 {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--gray-800);
+      margin-bottom: 12px;
+    }
+    .social-section p {
+      color: var(--gray-600);
+      margin-bottom: 36px;
+    }
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .social-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 28px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      font-size: 1rem;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+    .social-link:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+    .social-link__icon { font-size: 1.5rem; }
+    .social-link--tg {
+      background: #229ed9;
+      color: #fff;
+    }
+    .social-link--ig {
+      background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      color: #fff;
+    }
+    .social-link--phone {
+      background: var(--green);
+      color: #fff;
+    }
+
+    @media (max-width: 900px) {
+      .contact-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .contact-form-box { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar__inner">
+    <a href="index.html" class="navbar__logo">
+      <div class="navbar__logo-icon">🎓</div>
+      Mahliyo <span>EDU</span>
+    </a>
+    <div class="navbar__links">
+      <a href="index.html">Asosiy</a>
+      <a href="about.html">Biz haqimizda</a>
+      <a href="courses.html">Kurslar</a>
+      <a href="results.html">Natijalar</a>
+      <a href="teachers.html">Ustozlar</a>
+      <a href="contact.html" class="navbar__cta active">Bog'lanish</a>
+    </div>
+    <div class="navbar__burger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <h1>Biz bilan bog'laning</h1>
+  <p>Savollaringiz bormi? Hoziroq murojaat qiling — tez javob beramiz!</p>
+</div>
+
+<!-- ALOQA -->
+<section class="contact-section">
+  <div class="container">
+    <div class="contact-grid">
+
+      <!-- CHAP: MA'LUMOTLAR -->
+      <div>
+        <div class="contact-info">
+          <div>
+            <div class="contact-info__title">Aloqa ma'lumotlari</div>
+            <p class="contact-info__desc">
+              Istalgan qulay usulda biz bilan bog'laning.
+              Ish vaqtimiz: Dushanba–Shanba, 09:00–20:00
+            </p>
+          </div>
+
+          <a href="tel:+998991697769" class="contact-item">
+            <div class="contact-item__icon contact-item__icon--green">📞</div>
+            <div>
+              <div class="contact-item__label">Telefon</div>
+              <div class="contact-item__value">+998 99 169 77 69</div>
+            </div>
+          </a>
+
+          <a href="https://t.me/mahliyoeducation" target="_blank" class="contact-item">
+            <div class="contact-item__icon contact-item__icon--tg">✈️</div>
+            <div>
+              <div class="contact-item__label">Telegram</div>
+              <div class="contact-item__value">@mahliyoeducation</div>
+            </div>
+          </a>
+
+          <a href="https://instagram.com/mahliyoeducation" target="_blank" class="contact-item">
+            <div class="contact-item__icon contact-item__icon--red">📷</div>
+            <div>
+              <div class="contact-item__label">Instagram</div>
+              <div class="contact-item__value">@mahliyoeducation</div>
+            </div>
+          </a>
+
+          <div class="contact-item" style="cursor:default;">
+            <div class="contact-item__icon contact-item__icon--blue">📍</div>
+            <div>
+              <div class="contact-item__label">Manzil</div>
+              <div class="contact-item__value">Toshkent shahar</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- XARITA -->
+        <div class="map-box" style="margin-top:24px;">
+          <div class="icon">🗺️</div>
+          <p>Google Maps bu yerga qo'yiladi</p>
+        </div>
+      </div>
+
+      <!-- O'NG: FORMA -->
+      <div class="contact-form-box">
+        <h3>🚀 Ro'yxatdan o'ting</h3>
+        <p>
+          Ismingiz va telefon raqamingizni qoldiring —
+          mutaxassisimiz 24 soat ichida siz bilan bog'lanadi
+          va bepul sinov darsiga taklif qiladi.
+        </p>
+
+        <div id="formAlert" class="alert"></div>
+
+        <div class="form-group">
+          <label>Ismingiz *</label>
+          <input type="text" id="nameInput" placeholder="Masalan: Jasur Toshmatov"/>
+        </div>
+        <div class="form-group">
+          <label>Telefon raqamingiz *</label>
+          <input type="tel" id="phoneInput" placeholder="+998 90 123 45 67"/>
+        </div>
+        <div class="form-group">
+          <label>Qaysi kurs qiziqtiradi?</label>
+          <select id="courseSelect">
+            <option value="">— Tanlang —</option>
+            <option>Matematika va Fizika</option>
+            <option>Ingliz tili</option>
+            <option>Milliy Sertifikat</option>
+            <option>Hali aniqlamadim</option>
+          </select>
+        </div>
+
+        <button class="submit-btn" id="submitBtn" onclick="submitForm()">
+          📩 So'rov yuborish
+        </button>
+
+        <p style="font-size:0.82rem; color:var(--gray-400); margin-top:16px; text-align:center;">
+          Ma'lumotlaringiz faqat markaz tomonidan ishlatiladi
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IJTIMOIY TARMOQLAR -->
+<section class="social-section">
+  <h2>Ijtimoiy tarmoqlarda kuzating</h2>
+  <p>Yangiliklar, foydali materiallar va natijalar uchun bizni kuzatib boring</p>
+  <div class="social-links">
+    <a href="https://t.me/mahliyoeducation" target="_blank" class="social-link social-link--tg">
+      <span class="social-link__icon">✈️</span>
+      <span>Telegram</span>
+    </a>
+    <a href="https://instagram.com/mahliyoeducation" target="_blank" class="social-link social-link--ig">
+      <span class="social-link__icon">📷</span>
+      <span>Instagram</span>
+    </a>
+    <a href="tel:+998991697769" class="social-link social-link--phone">
+      <span class="social-link__icon">📞</span>
+      <span>+998 99 169 77 69</span>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__brand">
+      <div class="footer__brand-name">🎓 Mahliyo EDU</div>
+      <p class="footer__brand-desc">
+        Toshkentning ishonchli o'quv markazi. Matematika, Fizika,
+        Ingliz tili va Milliy sertifikat yo'nalishlarida sifatli ta'lim.
+      </p>
+      <div class="footer__socials">
+        <a href="https://t.me/mahliyoeducation" target="_blank">✈️</a>
+        <a href="https://instagram.com/mahliyoeducation" target="_blank">📷</a>
+        <a href="tel:+998991697769">📞</a>
+      </div>
+    </div>
+    <div class="footer__col">
+      <div class="footer__col-title">Sahifalar</div>
+      <ul>
+        <li><a href="index.html">Asosiy</a></li>
+        <li><a href="about.html">Biz haqimizda</a></li>
+        <li><a href="courses.html">Kurslar</a></li>
+        <li><a href="results.html">Natijalar</a></li>
+        <li><a href="teachers.html">Ustozlar</a></li>
+        <li><a href="contact.html">Bog'lanish</a></li>
+      </ul>
+    </div>
+    <div class="footer__col">
+      <div class="footer__col-title">Aloqa</div>
+      <ul>
+        <li><a href="tel:+998991697769">📞 +998 99 169 77 69</a></li>
+        <li><a href="https://t.me/mahliyoeducation">✈️ @mahliyoeducation</a></li>
+        <li><a href="https://instagram.com/mahliyoeducation">📷 @mahliyoeducation</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <span>© 2025 Mahliyo O'quv Markazi. Barcha huquqlar himoyalangan.</span>
+    <a href="admin/login.html" style="color: var(--gray-400); font-size:0.8rem;">Admin</a>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+  async function submitForm() {
+    const name  = document.getElementById('nameInput').value.trim();
+    const phone = document.getElementById('phoneInput').value.trim();
+    const btn   = document.getElementById('submitBtn');
+
+    if (!name) {
+      showAlert('formAlert', 'error', '❌ Iltimos, ismingizni kiriting!');
+      return;
+    }
+    if (!phone) {
+      showAlert('formAlert', 'error', '❌ Iltimos, telefon raqamingizni kiriting!');
+      return;
+    }
+    if (phone.length < 9) {
+      showAlert('formAlert', 'error', '❌ Telefon raqam noto\'g\'ri kiritildi!');
+      return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = '⏳ Yuborilmoqda...';
+
+    try {
+      const res = await apiPost('/api/applications', { name, phone });
+      if (res.status === 201) {
+        showAlert('formAlert', 'success', '✅ So\'rovingiz qabul qilindi! Tez orada siz bilan bog\'lanamiz.');
+        document.getElementById('nameInput').value  = '';
+        document.getElementById('phoneInput').value = '';
+        document.getElementById('courseSelect').value = '';
+      } else {
+        showAlert('formAlert', 'error', '❌ Xatolik yuz berdi. Qaytadan urinib ko\'ring.');
+      }
+    } catch (err) {
+      showAlert('formAlert', 'error', '❌ Server bilan bog\'lanib bo\'lmadi. Telefon orqali murojaat qiling.');
+    }
+
+    btn.disabled = false;
+    btn.innerHTML = '📩 So\'rov yuborish';
+  }
+
+  // Enter tugmasi bilan ham yuborish
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter') submitForm();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Natijalar — Mahliyo O'quv Markazi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    /* STATS HERO */
+    .stats-hero {
+      background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 60%, #16a34a 100%);
+      padding: 80px 24px;
+      color: #fff;
+    }
+    .stats-hero__inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .stats-hero h2 {
+      font-size: 2.2rem;
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+    .stats-hero p {
+      font-size: 1.05rem;
+      opacity: 0.9;
+      margin-bottom: 56px;
+    }
+    .big-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .big-stat {
+      background: rgba(255,255,255,0.12);
+      border-radius: var(--radius);
+      padding: 32px 20px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .big-stat__icon { font-size: 2.4rem; margin-bottom: 14px; }
+    .big-stat__num {
+      font-size: 3rem;
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+    .big-stat__label {
+      font-size: 0.9rem;
+      opacity: 0.85;
+      font-weight: 600;
+    }
+
+    /* YUTUQLAR */
+    .achievements { padding: 80px 0; }
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .achievement-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 32px;
+      border: 2px solid var(--gray-200);
+      text-align: center;
+      transition: var(--transition);
+    }
+    .achievement-card:hover {
+      border-color: var(--green);
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-4px);
+    }
+    .achievement-card__icon {
+      font-size: 3rem;
+      margin-bottom: 16px;
+    }
+    .achievement-card h3 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--gray-800);
+      margin-bottom: 10px;
+    }
+    .achievement-card p {
+      font-size: 0.9rem;
+      color: var(--gray-600);
+      line-height: 1.7;
+    }
+    .achievement-card__num {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--blue);
+      margin: 12px 0;
+    }
+
+    /* UNIVERSITETLAR */
+    .universities {
+      background: var(--gray-50);
+      padding: 80px 0;
+    }
+    .uni-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .uni-card {
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      padding: 24px 20px;
+      text-align: center;
+      border: 1px solid var(--gray-200);
+      transition: var(--transition);
+    }
+    .uni-card:hover {
+      border-color: var(--blue);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-3px);
+    }
+    .uni-card__icon { font-size: 2.2rem; margin-bottom: 12px; }
+    .uni-card h4 {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--gray-800);
+      margin-bottom: 6px;
+    }
+    .uni-card p {
+      font-size: 0.8rem;
+      color: var(--gray-400);
+    }
+
+    /* SHARHLAR */
+    .reviews { padding: 80px 0; }
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .review-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 28px;
+      border: 1px solid var(--gray-200);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+    .review-card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-3px);
+    }
+    .review-card__stars {
+      color: #f59e0b;
+      font-size: 1rem;
+      margin-bottom: 14px;
+      letter-spacing: 2px;
+    }
+    .review-card__text {
+      font-size: 0.93rem;
+      color: var(--gray-600);
+      line-height: 1.8;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+    .review-card__author {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .review-card__avatar {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .review-card__avatar--blue  { background: var(--blue-light); }
+    .review-card__avatar--green { background: var(--green-light); }
+    .review-card__avatar--red   { background: var(--red-light); }
+    .review-card__name {
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: var(--gray-800);
+    }
+    .review-card__meta {
+      font-size: 0.82rem;
+      color: var(--gray-400);
+      margin-top: 3px;
+    }
+    .review-card__badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-top: 6px;
+    }
+    .review-card__badge--blue  { background: var(--blue-light);  color: var(--blue); }
+    .review-card__badge--green { background: var(--green-light); color: var(--green); }
+    .review-card__badge--red   { background: var(--red-light);   color: var(--red); }
+
+    /* CTA */
+    .cta-section {
+      background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
+      padding: 80px 24px;
+      text-align: center;
+      color: #fff;
+    }
+    .cta-section h2 {
+      font-size: 2.2rem;
+      font-weight: 900;
+      margin-bottom: 16px;
+    }
+    .cta-section p {
+      font-size: 1.05rem;
+      opacity: 0.9;
+      margin-bottom: 36px;
+    }
+    .cta-section .btn {
+      background: #fff;
+      color: var(--green-dark);
+      font-size: 1.05rem;
+      padding: 16px 40px;
+    }
+    .cta-section .btn:hover {
+      background: var(--green-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+
+    @media (max-width: 900px) {
+      .big-stats { grid-template-columns: repeat(2, 1fr); }
+      .achievements-grid { grid-template-columns: repeat(2, 1fr); }
+      .uni-grid { grid-template-columns: repeat(2, 1fr); }
+      .reviews-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .big-stats { grid-template-columns: repeat(2, 1fr); }
+      .big-stat__num { font-size: 2.2rem; }
+      .achievements-grid { grid-template-columns: 1fr; }
+      .uni-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar__inner">
+    <a href="index.html" class="navbar__logo">
+      <div class="navbar__logo-icon">🎓</div>
+      Mahliyo <span>EDU</span>
+    </a>
+    <div class="navbar__links">
+      <a href="index.html">Asosiy</a>
+      <a href="about.html">Biz haqimizda</a>
+      <a href="courses.html">Kurslar</a>
+      <a href="results.html" class="active">Natijalar</a>
+      <a href="teachers.html">Ustozlar</a>
+      <a href="contact.html" class="navbar__cta">Bog'lanish</a>
+    </div>
+    <div class="navbar__burger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <h1>Bizning natijalar</h1>
+  <p>Raqamlar va faktlar — o'quvchilarimizning muvaffaqiyati</p>
+</div>
+
+<!-- KATTA STATISTIKA -->
+<section class="stats-hero">
+  <div class="stats-hero__inner">
+    <h2>Bizning yutuqlarimiz</h2>
+    <p>2021-yildan buyon erishgan natijalarimiz</p>
+    <div class="big-stats">
+      <div class="big-stat">
+        <div class="big-stat__icon">👨‍🎓</div>
+        <div class="big-stat__num"><span data-counter="500">0</span>+</div>
+        <div class="big-stat__label">Muvaffaqiyatli bitiruvchi</div>
+      </div>
+      <div class="big-stat">
+        <div class="big-stat__icon">🏅</div>
+        <div class="big-stat__num"><span data-counter="95">0</span>%</div>
+        <div class="big-stat__label">Sertifikat oldi</div>
+      </div>
+      <div class="big-stat">
+        <div class="big-stat__icon">🎯</div>
+        <div class="big-stat__num"><span data-counter="189">0</span>+</div>
+        <div class="big-stat__label">Universitetga kirdi</div>
+      </div>
+      <div class="big-stat">
+        <div class="big-stat__icon">⭐</div>
+        <div class="big-stat__num"><span data-counter="4">0</span>.9</div>
+        <div class="big-stat__label">O'rtacha reyting</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- YUTUQLAR -->
+<section class="achievements">
+  <div class="container">
+    <div class="section-header">
+      <div class="badge badge--blue">Yutuqlar</div>
+      <h2 class="section-title">Yo'nalishlar bo'yicha natijalar</h2>
+      <p class="section-subtitle">Har bir kurs bo'yicha erishilgan muvaffaqiyatlar</p>
+    </div>
+    <div class="achievements-grid">
+      <div class="achievement-card">
+        <div class="achievement-card__icon">📐</div>
+        <h3>Matematika va Fizika</h3>
+        <div class="achievement-card__num">92%</div>
+        <p>O'quvchilarimizning 92% DTM imtihonida matematikadan 80+ ball oldi</p>
+      </div>
+      <div class="achievement-card">
+        <div class="achievement-card__icon">🌍</div>
+        <h3>Ingliz tili</h3>
+        <div class="achievement-card__num">87%</div>
+        <p>IELTS imtihonida 6.0+ ball olgan o'quvchilar ulushi</p>
+      </div>
+      <div class="achievement-card">
+        <div class="achievement-card__icon">🎓</div>
+        <h3>Milliy Sertifikat</h3>
+        <div class="achievement-card__num">95%</div>
+        <p>Milliy sertifikat imtihonidan o'tgan o'quvchilarimiz ulushi</p>
+      </div>
+      <div class="achievement-card">
+        <div class="achievement-card__icon">🏆</div>
+        <h3>Olimpiada g'oliblari</h3>
+        <div class="achievement-card__num">23+</div>
+        <p>Respublika va shahar olimpiadalarida g'olib bo'lgan o'quvchilar</p>
+      </div>
+      <div class="achievement-card">
+        <div class="achievement-card__icon">🎯</div>
+        <h3>Grant sohiblari</h3>
+        <div class="achievement-card__num">47+</div>
+        <p>Davlat granti asosida universitetga kirgan bitiruvchilarimiz</p>
+      </div>
+      <div class="achievement-card">
+        <div class="achievement-card__icon">📈</div>
+        <h3>O'rtacha o'sish</h3>
+        <div class="achievement-card__num">2x</div>
+        <p>O'quvchilar o'rtacha 3 oy ichida natijalarini 2 baravarga oshirdi</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UNIVERSITETLAR -->
+<section class="universities">
+  <div class="container">
+    <div class="section-header">
+      <div class="badge badge--green">Universitetlar</div>
+      <h2 class="section-title">Bitiruvchilarimiz qayerda o'qiydi</h2>
+      <p class="section-subtitle">O'quvchilarimiz O'zbekistonning eng nufuzli universitetlarida ta'lim olmoqda</p>
+    </div>
+    <div class="uni-grid">
+      <div class="uni-card">
+        <div class="uni-card__icon">🏛️</div>
+        <h4>NUUz</h4>
+        <p>Milliy universitet</p>
+      </div>
+      <div class="uni-card">
+        <div class="uni-card__icon">⚙️</div>
+        <h4>TATU</h4>
+        <p>Texnika universiteti</p>
+      </div>
+      <div class="uni-card">
+        <div class="uni-card__icon">🏥</div>
+        <h4>ToshDTU</h4>
+        <p>Tibbiyot universiteti</p>
+      </div>
+      <div class="uni-card">
+        <div class="uni-card__icon">💼</div>
+        <h4>TDIU</h4>
+        <p>Iqtisodiyot instituti</p>
+      </div>
+      <div class="uni-card">
+        <div class="uni-card__icon">⚖️</div>
+        <h4>TDYuI</h4>
+        <p>Yuridik instituti</p>
+      </div>
+      <div class="uni-card">
+        <div class="uni-card__icon">🌍</div>
+        <h4>UzMU</h4>
+        <p>Jahon tillari universiteti</p>
+      </div>
+      <div class="uni-card">
+        <div class="uni-card__icon">🔬</div>
+        <h4>TDPU</h4>
+        <p>Pedagogika universiteti</p>
+      </div>
+      <div class="uni-card">
+        <div class="uni-card__icon">✈️</div>
+        <h4>Xorijda</h4>
+        <p>Xalqaro universitetlar</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHARHLAR -->
+<section class="reviews">
+  <div class="container">
+    <div class="section-header">
+      <div class="badge badge--blue">Sharhlar</div>
+      <h2 class="section-title">O'quvchilarimiz nima deydi</h2>
+      <p class="section-subtitle">Bitiruvchilarimizning hayotiy tajribalari</p>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-card__stars">★★★★★</div>
+        <p class="review-card__text">
+          "Mahliyo O'quv Markazida matematika o'qiganimdan keyin DTM da
+          95 ball oldim. Ustozlar juda yaxshi tushuntiradi, har bir
+          mavzuni to'liq tushunib ketaman."
+        </p>
+        <div class="review-card__author">
+          <div class="review-card__avatar review-card__avatar--blue">👦</div>
+          <div>
+            <div class="review-card__name">Jasur Toshmatov</div>
+            <div class="review-card__meta">2024-yil bitiruvchisi</div>
+            <div class="review-card__badge review-card__badge--blue">TATU — Grant</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-card__stars">★★★★★</div>
+        <p class="review-card__text">
+          "Ingliz tili kursidan keyin IELTS da 7.0 ball oldim. 6 oy
+          ichida A2 dan C1 darajasiga ko'tarildim. Ustozlar
+          professional va mehribon."
+        </p>
+        <div class="review-card__author">
+          <div class="review-card__avatar review-card__avatar--green">👧</div>
+          <div>
+            <div class="review-card__name">Malika Yusupova</div>
+            <div class="review-card__meta">2024-yil bitiruvchisi</div>
+            <div class="review-card__badge review-card__badge--green">IELTS 7.0</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-card__stars">★★★★★</div>
+        <p class="review-card__text">
+          "Milliy sertifikat kursida juda yaxshi tayyorlandim.
+          Mock imtihonlar va individual tahlil tufayli
+          natijam sezilarli oshdi. Tavsiya qilaman!"
+        </p>
+        <div class="review-card__author">
+          <div class="review-card__avatar review-card__avatar--red">👦</div>
+          <div>
+            <div class="review-card__name">Sherzod Nazarov</div>
+            <div class="review-card__meta">2023-yil bitiruvchisi</div>
+            <div class="review-card__badge review-card__badge--red">NUUz — Grant</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Siz ham muvaffaqiyat qozonishingiz mumkin!</h2>
+  <p>Hoziroq ro'yxatdan o'ting va birinchi bepul sinov darsiga keling</p>
+  <a href="contact.html" class="btn">🚀 Hoziroq boshlash</a>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__brand">
+      <div class="footer__brand-name">🎓 Mahliyo EDU</div>
+      <p class="footer__brand-desc">
+        Toshkentning ishonchli o'quv markazi. Matematika, Fizika,
+        Ingliz tili va Milliy sertifikat yo'nalishlarida sifatli ta'lim.
+      </p>
+      <div class="footer__socials">
+        <a href="https://t.me/mahliyoeducation" target="_blank">✈️</a>
+        <a href="https://instagram.com/mahliyoeducation" target="_blank">📷</a>
+        <a href="tel:+998991697769">📞</a>
+      </div>
+    </div>
+    <div class="footer__col">
+      <div class="footer__col-title">Sahifalar</div>
+      <ul>
+        <li><a href="index.html">Asosiy</a></li>
+        <li><a href="about.html">Biz haqimizda</a></li>
+        <li><a href="courses.html">Kurslar</a></li>
+        <li><a href="results.html">Natijalar</a></li>
+        <li><a href="teachers.html">Ustozlar</a></li>
+        <li><a href="contact.html">Bog'lanish</a></li>
+      </ul>
+    </div>
+    <div class="footer__col">
+      <div class="footer__col-title">Aloqa</div>
+      <ul>
+        <li><a href="tel:+998991697769">📞 +998 99 169 77 69</a></li>
+        <li><a href="https://t.me/mahliyoeducation">✈️ @mahliyoeducation</a></li>
+        <li><a href="https://instagram.com/mahliyoeducation">📷 @mahliyoeducation</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <span>© 2025 Mahliyo O'quv Markazi. Barcha huquqlar himoyalangan.</span>
+    <a href="admin/login.html" style="color: var(--gray-400); font-size:0.8rem;">Admin</a>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

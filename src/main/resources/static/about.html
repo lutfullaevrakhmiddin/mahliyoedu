@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Biz haqimizda — Mahliyo O'quv Markazi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      padding: 80px 0;
+    }
+    .about-image {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: linear-gradient(135deg, var(--blue-light), var(--green-light));
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      color: var(--gray-400);
+      font-size: 0.9rem;
+      border: 2px dashed var(--gray-200);
+    }
+    .about-image .icon { font-size: 5rem; }
+    .about-content .badge { margin-bottom: 16px; }
+    .about-content h2 {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--gray-800);
+      margin-bottom: 20px;
+      line-height: 1.3;
+    }
+    .about-content p {
+      font-size: 1rem;
+      color: var(--gray-600);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+    .about-features {
+      margin-top: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .about-feature {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 16px;
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--blue);
+    }
+    .about-feature__icon {
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .about-feature h4 {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--gray-800);
+      margin-bottom: 4px;
+    }
+    .about-feature p {
+      font-size: 0.88rem;
+      color: var(--gray-600);
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* MISSIYA */
+    .mission {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+      padding: 80px 24px;
+      color: #fff;
+      text-align: center;
+    }
+    .mission h2 {
+      font-size: 2rem;
+      font-weight: 900;
+      margin-bottom: 16px;
+    }
+    .mission p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      max-width: 680px;
+      margin: 0 auto 40px;
+      line-height: 1.8;
+    }
+    .mission-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .mission-card {
+      background: rgba(255,255,255,0.12);
+      border-radius: var(--radius);
+      padding: 28px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      text-align: center;
+    }
+    .mission-card__icon { font-size: 2.2rem; margin-bottom: 14px; }
+    .mission-card h3 {
+      font-size: 1rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+    .mission-card p {
+      font-size: 0.88rem;
+      opacity: 0.85;
+      margin: 0;
+      line-height: 1.7;
+    }
+
+    /* TARIXI */
+    .timeline {
+      padding: 80px 0;
+    }
+    .timeline__items {
+      max-width: 700px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .timeline__items::before {
+      content: '';
+      position: absolute;
+      left: 20px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--gray-200);
+    }
+    .timeline__item {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 36px;
+      position: relative;
+    }
+    .timeline__dot {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--blue);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+    .timeline__content {
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      padding: 20px 24px;
+      border: 1px solid var(--gray-200);
+      flex: 1;
+      box-shadow: var(--shadow-sm);
+    }
+    .timeline__content h4 {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--gray-800);
+      margin-bottom: 6px;
+    }
+    .timeline__content p {
+      font-size: 0.9rem;
+      color: var(--gray-600);
+      line-height: 1.7;
+    }
+
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; gap: 36px; }
+      .about-image { display: none; }
+      .mission-cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar__inner">
+    <a href="index.html" class="navbar__logo">
+      <div class="navbar__logo-icon">🎓</div>
+      Mahliyo <span>EDU</span>
+    </a>
+    <div class="navbar__links">
+      <a href="index.html">Asosiy</a>
+      <a href="about.html" class="active">Biz haqimizda</a>
+      <a href="courses.html">Kurslar</a>
+      <a href="results.html">Natijalar</a>
+      <a href="teachers.html">Ustozlar</a>
+      <a href="contact.html" class="navbar__cta">Bog'lanish</a>
+    </div>
+    <div class="navbar__burger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <h1>Biz haqimizda</h1>
+  <p>Mahliyo O'quv Markazi — bilim va muvaffaqiyat o'rtasidagi ko'prik</p>
+</div>
+
+<!-- HAQIMIZDA -->
+<section class="section">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-image">
+        <div class="icon">🏫</div>
+        <p>Markaz binosi rasmi</p>
+      </div>
+      <div class="about-content">
+        <div class="badge badge--blue">Bizning hikoyamiz</div>
+        <h2>Har bir o'quvchi — bizning g'ururumiz</h2>
+        <p>
+          Mahliyo O'quv Markazi 2021-yilda tashkil etilgan bo'lib,
+          Toshkentdagi eng ishonchli ta'lim markazlaridan biriga aylandi.
+          Biz abituriyentlar va maktab o'quvchilarini yuqori natijalarga
+          erishishga yordam beramiz.
+        </p>
+        <p>
+          Bizning maqsadimiz — har bir o'quvchiga individual yondashuv
+          orqali maksimal natijaga erishish. Tajribali ustozlarimiz
+          zamonaviy o'qitish metodlari bilan ishlaydi.
+        </p>
+        <div class="about-features">
+          <div class="about-feature">
+            <div class="about-feature__icon">👨‍🏫</div>
+            <div>
+              <h4>Tajribali ustozlar</h4>
+              <p>5+ yil tajribaga ega mutaxassislar jamoasi</p>
+            </div>
+          </div>
+          <div class="about-feature">
+            <div class="about-feature__icon">📊</div>
+            <div>
+              <h4>Yuqori natijalar</h4>
+              <p>O'quvchilarimizning 95% imtihonlardan muvaffaqiyatli o'tadi</p>
+            </div>
+          </div>
+          <div class="about-feature">
+            <div class="about-feature__icon">🕐</div>
+            <div>
+              <h4>Qulay jadval</h4>
+              <p>Ertalab va kechki guruhlar — o'zingizga qulay vaqtni tanlang</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MISSIYA -->
+<section class="mission">
+  <h2>Bizning missiyamiz</h2>
+  <p>
+    Har bir o'quvchiga sifatli ta'lim orqali kelajagi uchun mustahkam
+    poydevor yaratishga yordam berish — bu bizning asosiy maqsadimiz.
+  </p>
+  <div class="mission-cards">
+    <div class="mission-card">
+      <div class="mission-card__icon">🎯</div>
+      <h3>Aniq maqsad</h3>
+      <p>Har bir o'quvchi uchun individual o'quv rejasi tuzamiz</p>
+    </div>
+    <div class="mission-card">
+      <div class="mission-card__icon">💡</div>
+      <h3>Zamonaviy metodlar</h3>
+      <p>Interaktiv darslar va amaliy mashqlar orqali o'rgatamiz</p>
+    </div>
+    <div class="mission-card">
+      <div class="mission-card__icon">🏆</div>
+      <h3>Natija kafolati</h3>
+      <p>O'quvchilarimiz yuqori ball bilan imtihon topshiradi</p>
+    </div>
+  </div>
+</section>
+
+<!-- TARIXI -->
+<section class="timeline section">
+  <div class="container">
+    <div class="section-header">
+      <div class="badge badge--green">Tariximiz</div>
+      <h2 class="section-title">Bizning yo'limiz</h2>
+      <p class="section-subtitle">Har yili o'sib, rivojlanib kelmoqdamiz</p>
+    </div>
+    <div class="timeline__items">
+      <div class="timeline__item">
+        <div class="timeline__dot">21</div>
+        <div class="timeline__content">
+          <h4>2021 — Tashkil etildi</h4>
+          <p>Mahliyo O'quv Markazi 2 ta yo'nalish va 30 ta o'quvchi bilan faoliyatini boshladi.</p>
+        </div>
+      </div>
+      <div class="timeline__item">
+        <div class="timeline__dot">22</div>
+        <div class="timeline__content">
+          <h4>2022 — Kengayish</h4>
+          <p>Ingliz tili va Milliy sertifikat yo'nalishlari qo'shildi. O'quvchilar soni 150 taga yetdi.</p>
+        </div>
+      </div>
+      <div class="timeline__item">
+        <div class="timeline__dot">23</div>
+        <div class="timeline__content">
+          <h4>2023 — Yutuqlar</h4>
+          <p>O'quvchilarimizning 90% dan ortig'i DTM imtihonlaridan yuqori ball oldi.</p>
+        </div>
+      </div>
+      <div class="timeline__item">
+        <div class="timeline__dot">24</div>
+        <div class="timeline__content">
+          <h4>2024 — Yangi bosqich</h4>
+          <p>500+ bitiruvchi. Raqamli ta'lim platformasiga o'tish boshlandi.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__brand">
+      <div class="footer__brand-name">🎓 Mahliyo EDU</div>
+      <p class="footer__brand-desc">
+        Toshkentning ishonchli o'quv markazi. Matematika, Fizika,
+        Ingliz tili va Milliy sertifikat yo'nalishlarida sifatli ta'lim.
+      </p>
+      <div class="footer__socials">
+        <a href="https://t.me/mahliyoeducation" target="_blank">✈️</a>
+        <a href="https://instagram.com/mahliyoeducation" target="_blank">📷</a>
+        <a href="tel:+998991697769">📞</a>
+      </div>
+    </div>
+    <div class="footer__col">
+      <div class="footer__col-title">Sahifalar</div>
+      <ul>
+        <li><a href="index.html">Asosiy</a></li>
+        <li><a href="about.html">Biz haqimizda</a></li>
+        <li><a href="courses.html">Kurslar</a></li>
+        <li><a href="results.html">Natijalar</a></li>
+        <li><a href="teachers.html">Ustozlar</a></li>
+        <li><a href="contact.html">Bog'lanish</a></li>
+      </ul>
+    </div>
+    <div class="footer__col">
+      <div class="footer__col-title">Aloqa</div>
+      <ul>
+        <li><a href="tel:+998991697769">📞 +998 99 169 77 69</a></li>
+        <li><a href="https://t.me/mahliyoeducation">✈️ @mahliyoeducation</a></li>
+        <li><a href="https://instagram.com/mahliyoeducation">📷 @mahliyoeducation</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <span>© 2025 Mahliyo O'quv Markazi. Barcha huquqlar himoyalangan.</span>
+    <a href="admin/login.html" style="color: var(--gray-400); font-size:0.8rem;">Admin</a>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

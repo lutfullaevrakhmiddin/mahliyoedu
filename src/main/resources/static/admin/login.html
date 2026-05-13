@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin — Mahliyo O'quv Markazi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Nunito', sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 50%, #16a34a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .login-box {
+      background: #fff;
+      border-radius: 20px;
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.2);
+    }
+    .login-logo {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .login-logo__icon {
+      width: 72px;
+      height: 72px;
+      background: linear-gradient(135deg, #2563eb, #16a34a);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 16px;
+    }
+    .login-logo h1 {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #1e293b;
+      margin-bottom: 4px;
+    }
+    .login-logo p {
+      font-size: 0.88rem;
+      color: #94a3b8;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #475569;
+      margin-bottom: 8px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 13px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-family: inherit;
+      color: #1e293b;
+      outline: none;
+      transition: 0.2s;
+    }
+    .form-group input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.10);
+    }
+    .alert {
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      display: none;
+    }
+    .alert.show { display: block; }
+    .alert--error {
+      background: #fef2f2;
+      color: #ef4444;
+      border: 1px solid #fecaca;
+    }
+    .alert--success {
+      background: #f0fdf4;
+      color: #16a34a;
+      border: 1px solid #bbf7d0;
+    }
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 800;
+      font-family: inherit;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-top: 4px;
+    }
+    .login-btn:hover {
+      background: #1d4ed8;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(37,99,235,0.25);
+    }
+    .login-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 24px;
+      font-size: 0.88rem;
+      color: #94a3b8;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+    .back-link:hover { color: #2563eb; }
+  </style>
+</head>
+<body>
+
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="login-logo__icon">🎓</div>
+      <h1>Admin Panel</h1>
+      <p>Mahliyo O'quv Markazi</p>
+    </div>
+
+    <div id="loginAlert" class="alert"></div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="emailInput" placeholder="admin@mahliyoedu.uz" autocomplete="username"/>
+    </div>
+    <div class="form-group">
+      <label>Parol</label>
+      <input type="password" id="passwordInput" placeholder="••••••••" autocomplete="current-password"/>
+    </div>
+
+    <button class="login-btn" id="loginBtn" onclick="doLogin()">🔐 Kirish</button>
+    <a href="../index.html" class="back-link">← Asosiy saytga qaytish</a>
+  </div>
+
+<script>
+  const API_BASE = 'http://localhost:8080';
+
+  // Agar allaqachon login bo'lgan bo'lsa dashboard ga o'tkazamiz
+  if (sessionStorage.getItem('admin_logged_in') === 'true') {
+    window.location.href = 'dashboard.html';
+  }
+
+  async function doLogin() {
+    const email    = document.getElementById('emailInput').value.trim();
+    const password = document.getElementById('passwordInput').value;
+    const btn      = document.getElementById('loginBtn');
+    const alert    = document.getElementById('loginAlert');
+
+    if (!email || !password) {
+      showAlert('error', '❌ Email va parolni kiriting!');
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = '⏳ Tekshirilmoqda...';
+
+    try {
+      const res = await fetch(API_BASE + '/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        showAlert('success', '✅ Muvaffaqiyatli! Yo\'naltirilmoqda...');
+        sessionStorage.setItem('admin_logged_in', 'true');
+        sessionStorage.setItem('admin_email', email);
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 800);
+      } else {
+        showAlert('error', '❌ Email yoki parol noto\'g\'ri!');
+        btn.disabled = false;
+        btn.textContent = '🔐 Kirish';
+      }
+    } catch (err) {
+      showAlert('error', '❌ Server bilan bog\'lanib bo\'lmadi!');
+      btn.disabled = false;
+      btn.textContent = '🔐 Kirish';
+    }
+  }
+
+  function showAlert(type, msg) {
+    const el = document.getElementById('loginAlert');
+    el.className = `alert alert--${type} show`;
+    el.textContent = msg;
+  }
+
+  // Enter tugmasi
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter') doLogin();
+  });
+</script>
+</body>
+</html>
