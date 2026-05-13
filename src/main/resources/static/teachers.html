@@ -6,166 +6,150 @@
   <title>Ustozlar — Mahliyo O'quv Markazi</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <link rel="stylesheet" href="css/style.css"/>
   <style>
-    .teachers-section { padding: 80px 0; }
-    .teachers-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 28px;
+    .teachers-section { padding: 60px 0; }
+
+    /* ===== KARUSEL ===== */
+    .carousel-wrapper {
+      position: relative;
+      overflow: hidden;
+      padding: 20px 0 40px;
+    }
+    .carousel-track {
+      display: flex;
+      gap: 20px;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
     }
     .teacher-card {
+      flex: 0 0 240px;
       background: var(--white);
-      border-radius: var(--radius);
-      border: 2px solid var(--gray-200);
+      border-radius: 20px;
       overflow: hidden;
-      transition: var(--transition);
+      border: 2px solid var(--gray-200);
       box-shadow: var(--shadow-sm);
+      transition: all 0.5s ease;
+      opacity: 1;
+      filter: blur(0px);
+      transform: scale(1);
     }
-    .teacher-card:hover {
-      border-color: var(--blue);
-      box-shadow: var(--shadow-lg);
-      transform: translateY(-5px);
+    .teacher-card.blurred {
+      filter: blur(3px);
+      opacity: 0.55;
+      transform: scale(0.95);
     }
     .teacher-card__photo {
       width: 100%;
-      aspect-ratio: 4/3;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      background: var(--gray-100);
+    }
+    .teacher-card__photo-placeholder {
+      width: 100%;
+      height: 200px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 5rem;
-      position: relative;
-      overflow: hidden;
+      font-size: 4rem;
     }
-    .teacher-card__photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      position: absolute;
-      top: 0; left: 0;
+    .teacher-card__photo-placeholder--blue  { background: linear-gradient(135deg,#dbeafe,#bfdbfe); }
+    .teacher-card__photo-placeholder--green { background: linear-gradient(135deg,#dcfce7,#bbf7d0); }
+    .teacher-card__photo-placeholder--red   { background: linear-gradient(135deg,#fee2e2,#fecaca); }
+    .teacher-card__photo-placeholder--purple{ background: linear-gradient(135deg,#ede9fe,#ddd6fe); }
+    .teacher-card__body { padding: 16px; }
+    .teacher-card__name {
+      font-size: 1rem; font-weight: 800;
+      color: var(--gray-800); margin-bottom: 4px;
     }
-    .teacher-card__photo--blue  { background: linear-gradient(135deg, var(--blue-light), #bfdbfe); }
-    .teacher-card__photo--green { background: linear-gradient(135deg, var(--green-light), #bbf7d0); }
-    .teacher-card__photo--red   { background: linear-gradient(135deg, var(--red-light), #fecaca); }
     .teacher-card__subject {
-      position: absolute;
-      bottom: 12px;
-      left: 12px;
+      font-size: 0.82rem; color: var(--gray-400);
+      font-weight: 600; margin-bottom: 10px;
+    }
+    .teacher-card__rating {
+      display: flex; align-items: center; gap: 6px;
+    }
+    .stars { color: #f59e0b; font-size: 0.85rem; }
+    .rating-num {
+      font-size: 0.85rem; font-weight: 800; color: var(--gray-800);
+    }
+
+    /* KARUSEL TUGMALARI */
+    .carousel-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .carousel-btn {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      border: 2px solid var(--gray-200);
+      background: var(--white);
+      color: var(--blue);
+      font-size: 1rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .carousel-btn:hover {
       background: var(--blue);
       color: #fff;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.78rem;
-      font-weight: 700;
+      border-color: var(--blue);
+      box-shadow: var(--shadow-md);
     }
-    .teacher-card__subject--green { background: var(--green); }
-    .teacher-card__subject--red   { background: var(--red); }
-    .teacher-card__body { padding: 24px; }
-    .teacher-card__name {
-      font-size: 1.1rem;
-      font-weight: 800;
-      color: var(--gray-800);
-      margin-bottom: 8px;
+    .carousel-dots {
+      display: flex; gap: 8px;
     }
-    .teacher-card__desc {
-      font-size: 0.88rem;
-      color: var(--gray-600);
-      line-height: 1.7;
-      margin-bottom: 16px;
-    }
-    .teacher-card__stats {
-      display: flex;
-      gap: 16px;
-      padding-top: 16px;
-      border-top: 1px solid var(--gray-100);
-    }
-    .teacher-stat {
-      text-align: center;
-      flex: 1;
-    }
-    .teacher-stat__num {
-      font-size: 1.2rem;
-      font-weight: 900;
-      color: var(--blue);
-    }
-    .teacher-stat__label {
-      font-size: 0.75rem;
-      color: var(--gray-400);
-      font-weight: 600;
-    }
-
-    /* LOADING */
-    .teachers-loading {
-      text-align: center;
-      padding: 80px 20px;
-      color: var(--gray-400);
-    }
-    .teachers-loading__spinner {
-      width: 48px;
-      height: 48px;
-      border: 4px solid var(--gray-200);
-      border-top-color: var(--blue);
+    .carousel-dot {
+      width: 8px; height: 8px;
       border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 20px;
+      background: var(--gray-200);
+      cursor: pointer;
+      transition: var(--transition);
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* PLACEHOLDER (ustozlar yo'q bo'lganda) */
-    .teachers-placeholder {
-      text-align: center;
-      padding: 80px 20px;
-    }
-    .teachers-placeholder__icon { font-size: 4rem; margin-bottom: 20px; }
-    .teachers-placeholder h3 {
-      font-size: 1.4rem;
-      font-weight: 800;
-      color: var(--gray-800);
-      margin-bottom: 12px;
-    }
-    .teachers-placeholder p {
-      font-size: 0.95rem;
-      color: var(--gray-600);
-      margin-bottom: 28px;
+    .carousel-dot.active {
+      background: var(--blue);
+      width: 24px;
+      border-radius: 4px;
     }
 
-    /* JOIN SECTION */
+    /* JOIN */
     .join-section {
       background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
-      padding: 80px 24px;
-      text-align: center;
-      color: #fff;
+      padding: 64px 24px; text-align: center; color: #fff;
     }
-    .join-section h2 {
-      font-size: 2rem;
-      font-weight: 900;
-      margin-bottom: 16px;
-    }
-    .join-section p {
-      font-size: 1.05rem;
-      opacity: 0.9;
-      margin-bottom: 36px;
-      max-width: 560px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .join-section .btn {
-      background: #fff;
-      color: var(--blue-dark);
-      font-size: 1rem;
-      padding: 14px 36px;
-    }
-    .join-section .btn:hover {
-      background: var(--blue-light);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-    }
+    .join-section h2 { font-size: 1.8rem; font-weight: 900; margin-bottom: 12px; }
+    .join-section p  { font-size: 1rem; opacity: 0.9; margin-bottom: 28px; max-width: 500px; margin-left: auto; margin-right: auto; }
+    .join-section .btn { background:#fff; color:var(--blue-dark); font-size:1rem; padding:14px 32px; }
+    .join-section .btn:hover { background:var(--blue-light); transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,0.2); }
 
-    @media (max-width: 900px) {
-      .teachers-grid { grid-template-columns: repeat(2, 1fr); }
+    /* FOOTER ICONLAR */
+    .footer__socials a {
+      width: 38px; height: 38px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.08);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      transition: var(--transition);
+      color: var(--gray-400);
     }
-    @media (max-width: 560px) {
-      .teachers-grid { grid-template-columns: 1fr; }
+    .footer__socials a:hover { transform: translateY(-2px); }
+    .footer__socials a.tg:hover  { background: #229ed9; color: #fff; }
+    .footer__socials a.ig:hover  { background: #e1306c; color: #fff; }
+    .footer__socials a.tel:hover { background: var(--green); color: #fff; }
+
+    /* MOBIL */
+    @media (max-width: 600px) {
+      .teacher-card { flex: 0 0 180px; }
+      .teacher-card__photo-placeholder { height: 160px; font-size: 3rem; }
+      .teacher-card__body { padding: 12px; }
+      .teacher-card__name { font-size: 0.9rem; }
+      .carousel-btn { width: 38px; height: 38px; }
     }
   </style>
 </head>
@@ -207,33 +191,27 @@
       <p class="section-subtitle">Har bir ustoz o'z sohasida tajribali mutaxassis</p>
     </div>
 
-    <!-- LOADING -->
-    <div class="teachers-loading" id="loadingEl">
-      <div class="teachers-loading__spinner"></div>
-      <p>Ustozlar yuklanmoqda...</p>
+    <!-- KARUSEL -->
+    <div class="carousel-wrapper">
+      <div class="carousel-track" id="carouselTrack"></div>
     </div>
-
-    <!-- GRID (JS to'ldiradi) -->
-    <div class="teachers-grid" id="teachersGrid" style="display:none;"></div>
-
-    <!-- PLACEHOLDER (ustozlar yo'q bo'lganda) -->
-    <div class="teachers-placeholder" id="placeholderEl" style="display:none;">
-      <div class="teachers-placeholder__icon">👨‍🏫</div>
-      <h3>Ustozlar tez qo'shiladi</h3>
-      <p>Hozircha ma'lumot kiritilmagan. Admin panel orqali ustozlarni qo'shish mumkin.</p>
-      <a href="contact.html" class="btn btn--primary">Markaz bilan bog'lanish</a>
+    <div class="carousel-controls">
+      <button class="carousel-btn" id="prevBtn" onclick="move(-1)">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <div class="carousel-dots" id="carouselDots"></div>
+      <button class="carousel-btn" id="nextBtn" onclick="move(1)">
+        <i class="fas fa-chevron-right"></i>
+      </button>
     </div>
   </div>
 </section>
 
-<!-- USTOZ BO'LISH -->
+<!-- JOIN -->
 <section class="join-section">
   <h2>Jamoamizga qo'shiling!</h2>
-  <p>
-    Tajribali o'qituvchimisiz? Mahliyo O'quv Markazida ishlash
-    imkoniyatini ko'rib chiqing. Biz bilan bog'laning!
-  </p>
-  <a href="contact.html" class="btn">📩 Murojaat qilish</a>
+  <p>Tajribali o'qituvchimisiz? Mahliyo O'quv Markazida ishlash imkoniyatini ko'rib chiqing!</p>
+  <a href="contact.html" class="btn"><i class="fas fa-envelope"></i> &nbsp;Murojaat qilish</a>
 </section>
 
 <!-- FOOTER -->
@@ -242,13 +220,19 @@
     <div class="footer__brand">
       <div class="footer__brand-name">🎓 Mahliyo EDU</div>
       <p class="footer__brand-desc">
-        Toshkentning ishonchli o'quv markazi. Matematika, Fizika,
-        Ingliz tili va Milliy sertifikat yo'nalishlarida sifatli ta'lim.
+        Samarqand, Payariq shahridagi ishonchli o'quv markazi.
+        Matematika, Fizika, Ingliz tili va Milliy sertifikat yo'nalishlarida sifatli ta'lim.
       </p>
       <div class="footer__socials">
-        <a href="https://t.me/mahliyoeducation" target="_blank">✈️</a>
-        <a href="https://instagram.com/mahliyoeducation" target="_blank">📷</a>
-        <a href="tel:+998991697769">📞</a>
+        <a href="https://t.me/mahliyoeducation" target="_blank" class="tg" title="Telegram">
+          <i class="fab fa-telegram"></i>
+        </a>
+        <a href="https://instagram.com/mahliyoeducation" target="_blank" class="ig" title="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="tel:+998991697769" class="tel" title="Telefon">
+          <i class="fas fa-phone"></i>
+        </a>
       </div>
     </div>
     <div class="footer__col">
@@ -265,84 +249,158 @@
     <div class="footer__col">
       <div class="footer__col-title">Aloqa</div>
       <ul>
-        <li><a href="tel:+998991697769">📞 +998 99 169 77 69</a></li>
-        <li><a href="https://t.me/mahliyoeducation">✈️ @mahliyoeducation</a></li>
-        <li><a href="https://instagram.com/mahliyoeducation">📷 @mahliyoeducation</a></li>
+        <li><a href="tel:+998991697769"><i class="fas fa-phone"></i> +998 99 169 77 69</a></li>
+        <li><a href="https://t.me/mahliyoeducation"><i class="fab fa-telegram"></i> @mahliyoeducation</a></li>
+        <li><a href="https://instagram.com/mahliyoeducation"><i class="fab fa-instagram"></i> @mahliyoeducation</a></li>
       </ul>
     </div>
   </div>
   <div class="footer__bottom">
     <span>© 2025 Mahliyo O'quv Markazi. Barcha huquqlar himoyalangan.</span>
-    <a href="admin/login.html" style="color: var(--gray-400); font-size:0.8rem;">Admin</a>
+    <a href="admin/login.html" style="color:var(--gray-400);font-size:0.8rem;">Admin</a>
   </div>
 </footer>
 
 <script src="js/main.js"></script>
 <script>
-  const colors = ['blue', 'green', 'red'];
-  const emojis = ['👨‍🏫', '👩‍🏫', '🧑‍🏫'];
+// ===== PLACEHOLDER USTOZLAR =====
+const TEACHERS = [
+  { name: "Sardor Karimov",    subject: "Matematika",         rating: 4.9, color: "blue",   icon: "👨‍🏫" },
+  { name: "Nilufar Yusupova",  subject: "Ingliz tili",        rating: 4.8, color: "green",  icon: "👩‍🏫" },
+  { name: "Jasur Toshmatov",   subject: "Fizika",             rating: 4.9, color: "purple", icon: "👨‍🔬" },
+  { name: "Malika Rahimova",   subject: "Milliy Sertifikat",  rating: 4.7, color: "red",    icon: "👩‍💼" },
+  { name: "Bobur Nazarov",     subject: "Matematika",         rating: 4.8, color: "blue",   icon: "👨‍💻" },
+  { name: "Zulfiya Holmatova", subject: "Ingliz tili",        rating: 4.9, color: "green",  icon: "👩‍🎓" },
+  { name: "Ulugbek Sobirov",   subject: "Fizika",             rating: 4.7, color: "purple", icon: "🧑‍🏫" },
+];
 
-  async function loadTeachers() {
-    const loading   = document.getElementById('loadingEl');
-    const grid      = document.getElementById('teachersGrid');
-    const placeholder = document.getElementById('placeholderEl');
+// Karuselni to'ldirish uchun 3x takrorlaymiz (cheksiz aylanish effekti)
+const REPEATED = [...TEACHERS, ...TEACHERS, ...TEACHERS];
 
-    try {
-      const res = await apiGet('/api/teachers');
-      const teachers = await res.json();
+const track     = document.getElementById('carouselTrack');
+const dotsEl    = document.getElementById('carouselDots');
 
-      loading.style.display = 'none';
+// Ekran kengligiga qarab nechta karta ko'rinadi
+function visibleCount() {
+  return window.innerWidth <= 600 ? 3 : 4;
+}
 
-      if (!teachers || teachers.length === 0) {
-        placeholder.style.display = 'block';
-        return;
-      }
+// Kartalar yaratish
+REPEATED.forEach((t, i) => {
+  const card = document.createElement('div');
+  card.className = 'teacher-card';
+  card.innerHTML = `
+    <div class="teacher-card__photo-placeholder teacher-card__photo-placeholder--${t.color}">
+      ${t.icon}
+    </div>
+    <div class="teacher-card__body">
+      <div class="teacher-card__name">${t.name}</div>
+      <div class="teacher-card__subject"><i class="fas fa-book-open"></i> ${t.subject}</div>
+      <div class="teacher-card__rating">
+        <span class="stars">★★★★★</span>
+        <span class="rating-num">${t.rating}</span>
+      </div>
+    </div>
+  `;
+  track.appendChild(card);
+});
 
-      grid.style.display = 'grid';
-      grid.innerHTML = teachers.map((t, i) => {
-        const color = colors[i % colors.length];
-        const emoji = emojis[i % emojis.length];
-        const photo = t.photoUrl
-          ? `<img src="${t.photoUrl}" alt="${t.name}"/>`
-          : `<span style="position:relative;z-index:1">${emoji}</span>`;
+// Dotlar yaratish
+TEACHERS.forEach((_, i) => {
+  const dot = document.createElement('div');
+  dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+  dot.onclick = () => goTo(i);
+  dotsEl.appendChild(dot);
+});
 
-        return `
-          <div class="teacher-card">
-            <div class="teacher-card__photo teacher-card__photo--${color}" style="position:relative;">
-              ${photo}
-              <div class="teacher-card__subject teacher-card__subject--${color === 'blue' ? '' : color}">
-                ${t.subject}
-              </div>
-            </div>
-            <div class="teacher-card__body">
-              <div class="teacher-card__name">${t.name}</div>
-              <p class="teacher-card__desc">${t.description || 'Tajribali o\'qituvchi'}</p>
-              <div class="teacher-card__stats">
-                <div class="teacher-stat">
-                  <div class="teacher-stat__num">5+</div>
-                  <div class="teacher-stat__label">Yil tajriba</div>
-                </div>
-                <div class="teacher-stat">
-                  <div class="teacher-stat__num">100+</div>
-                  <div class="teacher-stat__label">O'quvchi</div>
-                </div>
-                <div class="teacher-stat">
-                  <div class="teacher-stat__num">95%</div>
-                  <div class="teacher-stat__label">Natija</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        `;
-      }).join('');
+let current  = TEACHERS.length; // O'rta guruhdan boshlaymiz
+let cardWidth = 0;
+let gap       = 20;
+let autoTimer = null;
 
-    } catch (err) {
-      loading.style.display = 'none';
-      placeholder.style.display = 'block';
+function getCardWidth() {
+  const cards = track.querySelectorAll('.teacher-card');
+  if (cards.length === 0) return 240;
+  return cards[0].offsetWidth + gap;
+}
+
+function updateBlur() {
+  const cards = track.querySelectorAll('.teacher-card');
+  const vis   = visibleCount();
+  cards.forEach((card, i) => {
+    const rel = i - current;
+    // Birinchi va oxirgi ko'rinayotgan karta blur bo'ladi
+    if (rel === 0 || rel === vis - 1) {
+      card.classList.add('blurred');
+    } else {
+      card.classList.remove('blurred');
     }
-  }
+  });
+}
 
-  loadTeachers();
+function updateDots() {
+  const dots = dotsEl.querySelectorAll('.carousel-dot');
+  const idx  = current % TEACHERS.length;
+  dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+}
+
+function render(animate = true) {
+  cardWidth = getCardWidth();
+  track.style.transition = animate ? 'transform 0.6s cubic-bezier(0.4,0,0.2,1)' : 'none';
+  track.style.transform  = `translateX(-${current * cardWidth}px)`;
+  updateBlur();
+  updateDots();
+}
+
+function move(dir) {
+  current += dir;
+  render();
+  resetAuto();
+
+  // Cheksiz aylanish — oxiriga yetganda o'rtaga qaytamiz
+  track.addEventListener('transitionend', function onEnd() {
+    track.removeEventListener('transitionend', onEnd);
+    if (current >= REPEATED.length - TEACHERS.length) {
+      current = TEACHERS.length + (current - (REPEATED.length - TEACHERS.length));
+      render(false);
+    }
+    if (current < TEACHERS.length) {
+      current = REPEATED.length - TEACHERS.length - (TEACHERS.length - current);
+      render(false);
+    }
+  });
+}
+
+function goTo(idx) {
+  current = TEACHERS.length + idx;
+  render();
+  resetAuto();
+}
+
+function startAuto() {
+  autoTimer = setInterval(() => move(1), 3000);
+}
+
+function resetAuto() {
+  clearInterval(autoTimer);
+  startAuto();
+}
+
+// Touch/swipe mobil uchun
+let touchStartX = 0;
+track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+track.addEventListener('touchend',   e => {
+  const diff = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 50) move(diff > 0 ? 1 : -1);
+});
+
+// Ishga tushirish
+window.addEventListener('load', () => {
+  render(false);
+  startAuto();
+});
+
+window.addEventListener('resize', () => render(false));
 </script>
 </body>
 </html>
