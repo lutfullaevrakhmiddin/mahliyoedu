@@ -30,7 +30,7 @@
       80%     { transform: rotate(2deg); }
     }
     .navbar__cta {
-      animation: nav-pulse 2.2s infinite, nav-wiggle 4s 2s infinite;
+      animation: nav-pulse 2.2s infinite;
       position: relative;
     }
     .navbar__cta:hover {
@@ -336,6 +336,15 @@
       .stats__inner { gap: 12px; }
       .stat-card__num { font-size: 1.8rem; }
     }
+  @keyframes pulse-gold {
+      0%,100% { text-shadow: 0 0 4px rgba(252,211,77,0.3); }
+      50%     { text-shadow: 0 0 8px rgba(252,211,77,1), 0 0 20px rgba(252,211,77,0.7), 0 0 36px rgba(252,211,77,0.4); }
+    }
+    @keyframes trophy-bounce {
+      0%,100% { transform: translateY(0) rotate(0deg); }
+      25%     { transform: translateY(-4px) rotate(-8deg); }
+      75%     { transform: translateY(-4px) rotate(8deg); }
+    }
   </style>
 </head>
 <body>
@@ -370,7 +379,7 @@
     <!-- Chap tomon: matn -->
     <div class="hero__content">
       <div class="hero__badge">
-        <i class="fas fa-trophy"></i> Yuqori natijalar
+        <i class="fas fa-trophy" style="color:#fcd34d;animation:pulse-gold 2s ease-in-out infinite;"></i> Yuqori natijalar
       </div>
       <h1 class="hero__title">
         Bilim — <span>kelajagingiz</span><br>kaliti
