@@ -29,6 +29,10 @@ public class Application {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
+    // Qaysi curs uchun so'ro'v
+    @Column(length = 100)
+    private String course;
+
     // Admin ko'rdimi yoki yo'q, default false
     @Column(nullable = false)
     private boolean viewed = false;

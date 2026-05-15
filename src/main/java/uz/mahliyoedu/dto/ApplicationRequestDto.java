@@ -1,8 +1,6 @@
 package uz.mahliyoedu.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,13 +8,15 @@ import lombok.Setter;
 @Setter
 public class ApplicationRequestDto {
 
-    // Bo'sh bo'lmasligi va 2-50 belgi orasida bo'lishi kerak
-    @NotBlank(message = "Ism bo'sh bo'lmasligi kerak")
-    @Size(min = 2, max = 50, message = "Ism 2-50 belgi orasida bo'lishi kerak")
+    @NotBlank
+    @Size(min = 2, max = 50)
     private String name;
 
-    // Bo'sh bo'lmasligi va telefon formatiga mos bo'lishi kerak
-    @NotBlank(message = "Telefon raqam bo'sh bo'lmasligi kerak")
-    @Pattern(regexp = "^\\+998[0-9]{9}$", message = "Telefon raqam +998XXXXXXXXX formatida bo'lishi kerak")
+    @NotBlank
+    @Pattern(regexp = "^\\+998[0-9]{9}$")
     private String phone;
+
+    // Ixtiyoriy — qaysi kurs uchun
+    @Size(max = 100)
+    private String course;
 }
