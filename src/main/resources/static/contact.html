@@ -310,7 +310,8 @@
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Yuborilmoqda...';
 
     try {
-      const res = await apiPost('/api/applications', { name, phone });
+      const course = document.getElementById('courseSelect').value;
+      const res = await apiPost('/api/applications', { name, phone, course });
       if (res.status === 201) {
         showAlert('formAlert','success','✅ So\'rovingiz qabul qilindi! Tez orada siz bilan bog\'lanamiz.');
         document.getElementById('nameInput').value    = '';

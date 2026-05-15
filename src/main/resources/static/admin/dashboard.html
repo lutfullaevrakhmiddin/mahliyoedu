@@ -410,7 +410,7 @@
       <div class="table-wrap">
         <table>
           <thead>
-          <tr><th>#</th><th>Ism</th><th>Telefon</th><th>Sana</th><th>Holat</th><th>Amal</th></tr>
+          <tr><th>#</th><th>Ism</th><th>Telefon</th><th>Kurs</th><th>Sana</th><th>Holat</th><th>Amal</th></tr>
           </thead>
           <tbody id="appTableBody"></tbody>
         </table>
@@ -598,7 +598,11 @@
       const res=await fetch(API+'/api/admin/applications',{headers:authH()});
       if(res.status===401||res.status===403){doLogout();return;}
       appData=await res.json();
-      appData.sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
+      appData.sort((a,b)=>{
+      if(!a.viewed&&b.viewed)return -1;
+      if(a.viewed&&!b.viewed)return 1;
+      return new Date(b.createdAt)-new Date(a.createdAt);
+    });
       updateStats();renderApps();
     }catch(e){
       document.getElementById('appLoading').innerHTML=`
@@ -627,7 +631,7 @@
       <td style="color:var(--gray-400);font-weight:700">${i+1}</td>
       <td style="font-weight:800">${a.name}</td>
       <td><a href="tel:${a.phone}" style="color:var(--blue);font-weight:700;text-decoration:none">${a.phone}</a></td>
-      <td style="font-size:0.8rem;color:var(--gray-600)">${fmtDate(a.createdAt)}</td>
+        <td>${a.course?'<span class="badge badge--subject">'+a.course+'</span>':'<span style="color:var(--gray-400)">—</span>'}</td><td style="font-size:0.8rem;color:var(--gray-600)">${fmtDate(a.createdAt)}</td>
       <td>${!a.viewed?'<span class="badge badge--new">🔴 Yangi</span>':'<span class="badge badge--viewed">✅ Ko\'rilgan</span>'}</td>
       <td><div class="action-btns">
         <a href="tel:${a.phone}" class="act-btn act-btn--call"><i class="fas fa-phone"></i></a>
@@ -644,7 +648,7 @@
         ${!a.viewed?'<span class="badge badge--new">🔴 Yangi</span>':'<span class="badge badge--viewed">✅ Ko\'rilgan</span>'}
       </div>
       <a href="tel:${a.phone}" class="m-card__phone"><i class="fas fa-phone"></i>${a.phone}</a>
-      <div class="m-card__meta"><i class="fas fa-clock"></i> ${fmtDate(a.createdAt)}</div>
+      <div class="m-card__meta">${a.course?'<span style="color:var(--blue);font-weight:700"><i class="fas fa-book"></i> '+a.course+'</span><br>':''}<i class="fas fa-clock"></i> ${fmtDate(a.createdAt)}</div>
       <div class="m-card__actions">
         <a href="tel:${a.phone}" class="act-btn act-btn--call"><i class="fas fa-phone"></i></a>
         ${!a.viewed?`<button class="act-btn act-btn--view" onclick="markViewed(${a.id})"><i class="fas fa-eye"></i></button>`:''}
